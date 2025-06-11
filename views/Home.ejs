@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movie Recommendation System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+    <div class="container-fluid">
+      <!-- Logo -->
+      <a class="navbar-brand fw-bold text-warning fs-3" href="/">
+        <i class="bi bi-film"></i> <span class="text-light">Watcho Movies</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <!-- Centered nav links -->
+        <div class="mx-auto">
+          <ul class="navbar-nav d-flex flex-row justify-content-center">
+            <li class="nav-item px-2">
+              <a class="nav-link text-info fs-5" href="/"><i class="bi bi-house-fill me-1"></i>Home</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link text-light fs-5" href="/about"><i class="bi bi-info-circle me-1"></i>About</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link text-light fs-5" href="/movie/list"><i class="bi bi-film me-1"></i>Movies</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Search and Login -->
+        <div class="d-flex align-items-center ms-auto">
+          <form class="d-flex me-3" role="search" action="/search" method="GET">
+            <input class="form-control me-2" type="search" name="q" placeholder="Search movies..." aria-label="Search">
+            <button class="btn btn-outline-warning" type="submit"><i class="bi bi-search"></i></button>
+          </form>
+          <a href="/user/login" class="btn btn-primary fs-5"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-grow-1 container my-5">
+    <h1 class="text-center text-dark display-4 fw-bold">
+      <i class="bi bi-stars text-warning"></i> Welcome to Movie Recommendation System
+    </h1>
+    <p class="text-center text-secondary fs-5 mt-3">
+      Discover personalized, top-rated, and trending movies. Just log in, explore, and enjoy your watchlist journey!
+    </p>
+
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white pt-3 pb-2 small">
+    <div class="container text-center text-md-start">
+      <div class="row">
+
+        <!-- About Project -->
+        <div class="col-md-4 mb-3">
+          <h6 class="text-warning"><i class="bi bi-film"></i> About Project</h6>
+          <p>
+            A web application that recommends movies to users based on content and collaborative filtering. Easy to use, personalized, and accurate.
+          </p>
+        </div>
+
+        <!-- Contact -->
+        <div class="col-md-4 mb-3">
+          <h6 class="text-light"><i class="bi bi-envelope-fill me-1"></i> Contact</h6>
+          <p class="mb-1"><i class="bi bi-envelope-open me-1"></i> support@movierecsys.com</p>
+          <p><i class="bi bi-telephone-fill me-1"></i> +91-9876543210</p>
+        </div>
+
+        <!-- Social Media -->
+        <div class="col-md-4 mb-3">
+          <h6 class="text-light"><i class="bi bi-person-circle me-1"></i> Connect with Us</h6>
+          <div class="d-flex justify-content-center justify-content-md-start">
+            <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-5"></i></a>
+            <a href="#" class="text-white me-3"><i class="bi bi-twitter fs-5"></i></a>
+            <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-5"></i></a>
+            <a href="#" class="text-white"><i class="bi bi-youtube fs-5"></i></a>
+          </div>
+        </div>
+
+      </div>
+      <div class="border-top pt-2 text-center">
+        <small><i class="bi bi-c-circle me-1"></i>2025 Movie Recommendation System | All Rights Reserved</small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
