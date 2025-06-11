@@ -4,14 +4,13 @@ let bodyparser=require("body-parser");
 let session=require("express-session");
 
 
-// let router=require("../src/routes/regrouts.js");
 let conn=require("../src/config/db");
+let regRouter=require("../src/routes/regroutes")
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// app.use("/",router);
-
 app.set('view engine','ejs');
 
+app.use("/", regRouter);
 module.exports=app
