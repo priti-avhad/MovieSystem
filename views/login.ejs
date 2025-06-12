@@ -4,96 +4,108 @@
   <meta charset="UTF-8">
   <title>Login - Movie Recommendation System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
   <style>
     body {
       background: url('https://images.unsplash.com/photo-1605648916319-0aa6e1973f36?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
       background-size: cover;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
     }
 
     .login-card {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 2rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      max-width: 400px;
-      width: 100%;
-      animation: slideIn 0.8s ease;
+      background-color: rgba(30, 60, 90, 0.9);
+      color: #ffffff;
     }
 
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .form-control {
+      background-color: #f8f9fa;
+      color: #212529;
     }
 
-    .btn-primary {
-      background-color: #4a69bd;
-      border: none;
+    .form-control::placeholder {
+      color: #6c757d;
     }
 
-    .btn-primary:hover {
-      background-color: #2e4c9a;
+    .input-group-text {
+      background-color: #dee2e6;
     }
 
-    .text-muted a {
-      text-decoration: none;
+    .btn-outline-secondary {
+      background-color: #f8f9fa;
+      color: #212529;
     }
 
-    .form-control:focus {
-      box-shadow: none;
-      border-color: #4a69bd;
+    .btn-outline-secondary:hover {
+      background-color: #e2e6ea;
     }
 
-    .toggle-password {
-      cursor: pointer;
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #666;
+    .btn-success {
+      font-size: 0.9rem;
     }
   </style>
 </head>
-<body>
+<body class="d-flex align-items-center justify-content-center vh-100">
 
-  <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="login-card">
-      <h3 class="text-center text-primary mb-4">🎬 User Login</h3>
+  <div class="card login-card p-4 shadow-lg border-0 rounded-4" style="max-width: 400px; width: 100%;">
+    <h3 class="text-center mb-4 text-white">
+      <i class="bi  me-2 text-success"></i>User Login
+    </h3>
 
-      <form action="/login" method="POST" novalidate>
-        <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
+    <form action="/login" method="POST">
+      <!-- Username -->
+      <div class="mb-3">
+        <label for="username " class="form-label fw-semibold text-white">Username</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person text-primary"></i></span>
           <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
         </div>
+      </div>
 
-        <div class="mb-3 position-relative">
-          <label for="password" class="form-label">Password</label>
+      <!-- Password -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold text-white">Password</label>
+
+        <!-- Hidden Password Field -->
+        <div id="pwd-hidden" class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock text-danger"></i></span>
           <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
-          <span class="toggle-password" onclick="togglePassword()">👁️</span>
+          <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#pwd-visible #pwd-hidden">
+            <i class="bi bi-eye text-dark"></i>
+          </button>
         </div>
 
-        <div class="d-grid mb-3">
-          <button type="submit" class="btn btn-primary">Login</button>
+        <!-- Visible Password Field -->
+        <div id="pwd-visible" class="collapse input-group mt-2">
+          <span class="input-group-text"><i class="bi bi-unlock text-warning"></i></span>
+          <input type="text" class="form-control" placeholder="Enter your password (visible)">
+          <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#pwd-hidden #pwd-visible">
+            <i class="bi bi-eye-slash text-dark"></i>
+          </button>
         </div>
-      </form>
+      </div>
 
-      <p class="text-center text-muted">
-        Don't have an account? <a href="/register" class="text-primary">Register here</a>
-      </p>
-    </div>
+      <!-- Login Button -->
+      <div class="d-grid mb-3">
+        <button type="submit" class="btn btn-success">
+          <i class="bi bi-box-arrow-in-right me-1 text-white"></i>Login
+        </button>
+      </div>
+    </form>
+
+    <!-- Register Link -->
+    <p class="text-center text-light">
+      <i class="bi bi-question-circle me-1 text-light"></i>Don't have an account?
+      <a href="/register" class="text-warning text-decoration-none">
+        <i class="bi bi-person-plus-fill me-1 text-warning"></i>Register here
+      </a>
+    </p>
   </div>
 
-  <script>
-    function togglePassword() {
-      const password = document.getElementById("password");
-      password.type = password.type === "password" ? "text" : "password";
-    }
-  </script>
-
+  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
