@@ -3,7 +3,10 @@ let app = express();
 let bodyparser = require("body-parser");
 let session = require("express-session");
 
-require("dotenv").config(); // Just in case you're using .env
+
+app.use(express.static("public"));
+
+require("dotenv").config();
 
 let conn = require("../src/config/db.js");
 let regRouter = require("../src/routes/registerRoutes");
