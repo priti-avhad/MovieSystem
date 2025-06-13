@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - Movie Recommendation System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #f8f9fa, #e9ecef);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .main-content {
+      padding-top: 60px;
+      flex: 1;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #0d1117;
+      color: white;
+      min-height: calc(100vh - 70px - 60px);
+    }
+
+    .sidebar h5 {
+      padding-bottom: 10px;
+      border-bottom: 1px solid #444;
+    }
+
+    .sidebar .nav-link {
+      color: #ccc;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link:focus {
+      background-color: #1f6feb;
+      color: white;
+    }
+
+    .dashboard {
+      flex-grow: 1;
+      background: linear-gradient(to bottom right, #f1f3f5, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 70px - 60px);
+      border-left: 1px solid #dee2e6;
+    }
+
+    footer {
+      background-color: #0d1117;
+      color: white;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .navbar-brand span {
+      font-weight: bold;
+      color: #ffc107;
+    }
+
+    .navbar .nav-link {
+      color: #f8f9fa !important;
+      font-size: 0.9rem;
+    }
+
+    .btn-outline-light:hover {
+      background-color: #ffc107;
+      color: #000;
+    }
+
+    h1 i {
+      animation: floatIcon 1.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatIcon {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(-5px);
+      }
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2 fixed-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold fs-4" href="/admin">
+      <i class="bi bi-film text-warning"></i> <span>Admin Panel</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+      <div class="d-flex align-items-center ms-auto">
+        <a href="/logout" class="btn btn-sm btn-danger shadow-sm">
+          <i class="bi bi-box-arrow-right me-1 text-light"></i>Logout
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content flex-grow-1">
+<!-- Sidebar -->
+<div class="sidebar p-3 shadow-sm">
+  <div class="text-center mb-3">
+    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile Image" class="rounded-circle mb-2" width="80" height="80">
+    <h6 class="text-white mb-0">Admin</h6>
+    <small class="text-muted">Administrator</small>
+  </div>
+  
+  <h5 class="mt-4"><i class="bi bi-sliders2-vertical me-2 text-info"></i> Admin Menu</h5>
+  <ul class="nav flex-column">
+    
+   
+    <!-- Manage Movies -->
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#movieMenu" role="button" aria-expanded="false">
+        <i class="bi bi-camera-reels me-1 text-warning"></i> Movies
+        <i class="bi bi-caret-down-fill float-end text-secondary"></i>
+      </a>
+      <div class="collapse" id="movieMenu">
+        <ul class="nav flex-column ms-3">
+          <li class="nav-item">
+            <a class="nav-link small" href="#">
+              <i class="bi bi-eye me-1 text-success"></i> View Movies
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link small" href="#">
+              <i class="bi bi-plus-circle me-1 text-danger"></i> Add Movie
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <!-- Users -->
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="bi bi-person-circle me-1 text-success"></i> Users
+      </a>
+    </li>
+
+    <!-- Ratings -->
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="bi bi-star-fill me-1 text-warning"></i> Ratings
+      </a>
+    </li>
+
+    <!-- Reviews -->
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="bi bi-chat-left-text-fill me-1 text-info"></i> Reviews
+      </a>
+    </li>
+
+    <!-- Profile -->
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="bi bi-person-badge-fill me-1 text-primary"></i> Profile
+      </a>
+    </li>
+
+    <!-- Logout -->
+    <li class="nav-item mt-3">
+      <a href="/logout" class="btn btn-sm btn-outline-light w-100">
+        <i class="bi bi-box-arrow-left me-1 text-danger"></i> Logout
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  <!-- Dashboard Center -->
+  <div class="dashboard">
+    <div class="text-center p-5 bg-white rounded-4 shadow-lg animate__animated animate__fadeIn" style="max-width: 600px;">
+      <h1 class="text-dark fw-bold mb-3" style="font-size: 2.5rem;">
+        <i class="bi bi-speedometer2 me-2 text-primary" style="font-size: 3rem;"></i> Welcome to Admin Dashboard
+      </h1>
+      <p class="text-muted fs-5">Hello, <span class="text-success fw-semibold">Admin</span>! Manage your movies and users here.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="mt-auto">
+  <div class="container">
+    <p class="mb-0">© 2025 Movie Recommendation System | Admin Panel</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
