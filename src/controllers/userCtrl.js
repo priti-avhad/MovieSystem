@@ -52,9 +52,18 @@ const loginUser = (req, res) => {
     }
 
     const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    res.render("login", { message: `Welcome ${role}!`, activeTab: "login" });
+
+    // Redirect based on role
+    if (role === "Admin") {
+const selectedView = req.query.view || "dashboard";
+res.render("AdminPanel", { view: selectedView });    } else if (role === "User") {
+      return res.render("UserPanel", { name: user.username });  // Create UserPanel.ejs
+    } else {
+      return res.render("login", { message: "Invalid role selected.", activeTab: "login" });
+    }
   });
 };
+
 
 module.exports = {
   registerUser,

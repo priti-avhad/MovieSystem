@@ -20,16 +20,20 @@ exports.showLoginForm = (req, res) => {
 };
 
 exports.loginUser = (req, res) => {
-  const { name, password } = req.body;
+  const { name, password, role } = req.body;
 
-  if (name === storedName && password === storedPassword) {
-    const token = jwt.sign({ name }, SECRET_KEY, { expiresIn: "1h" });
+  if (name === storedName && password === storedPassword && role === storedRole) {
+    const token = jwt.sign({ name, role }, SECRET_KEY, { expiresIn: "1h" });
 
-    res.send(`
-      <h2 style="color:green;">Login successful!</h2>
-      <p>Token: <code>${token}</code></p>
-    `);
+    if (role === "Admin") {
+      res.render("adminpanel", { name }); // ✅ render admin panel
+    } else {
+      res.render("userpanel", { name }); // ✅ render user panel
+    }
   } else {
-    res.send("<h2 style='color:red;'>Invalid name or password.</h2>");
+    res.render("login", {
+      activeTab: "login",
+      message: "Invalid name, password, or role.",
+    });
   }
 };
