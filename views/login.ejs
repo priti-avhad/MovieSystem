@@ -67,14 +67,6 @@
       display: block;
     }
 
-    #tab-login:checked ~ .container .form-title::after {
-      content: "Login Form";
-    }
-
-    #tab-register:checked ~ .container .form-title::after {
-      content: "Register Form";
-    }
-
     .form-title {
       text-align: center;
       font-size: 1.5em;
@@ -100,19 +92,7 @@
       top: 50%;
       left: 12px;
       transform: translateY(-50%);
-      color: #004e92;
-      transition: color 0.3s ease;
-    }
-
-    /* Change icon color when input/select is focused */
-    .input-group input:focus + i,
-    .input-group select:focus + i {
-      color: #000428;
-    }
-
-    /* Change icon color when role is selected (non-default) */
-    .input-group select:not([value=""]) + i {
-      color: #000428;
+      color: #555;
     }
 
     .form a {
@@ -146,6 +126,17 @@
       cursor: pointer;
     }
 
+    .message {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 15px;
+      color: green;
+    }
+
+    .message.error {
+      color: red;
+    }
+
     @keyframes fade {
       from {opacity: 0;}
       to {opacity: 1;}
@@ -155,7 +146,7 @@
 <body class="d-flex align-items-center justify-content-center vh-100">
 
   <div class="container">
-    <div class="form-title"></div>
+    <div class="form-title">Welcome</div>
 
     <div class="tab-buttons">
       <label for="tab-login">Login</label>
@@ -165,42 +156,54 @@
     <!-- Login Form -->
     <form id="loginForm" class="form" action="/login" method="POST">
       <div class="input-group">
-        <input type="email" name="email" placeholder="Email Address" required />
         <i class="fas fa-envelope"></i>
+        <input type="email" name="email" placeholder="Email Address" required />
       </div>
       <div class="input-group">
-        <input type="password" name="password" placeholder="Password" required />
         <i class="fas fa-lock"></i>
+        <input type="password" name="password" placeholder="Password" required />
       </div>
       <div class="input-group">
-        <select name="role" required onchange="this.setAttribute('value', this.value);">
+        <i class="fas fa-user-tag"></i>
+        <select name="role" required>
           <option value="" disabled selected>Select Role</option>
           <option value="User">User</option>
           <option value="Admin">Admin</option>
         </select>
-        <i class="fas fa-user-tag"></i>
       </div>
       <a href="#">Forgot password?</a>
       <button type="submit">Login</button>
       <p>Not a member? <label for="tab-register">Register Here</label></p>
+
+      <% if (activeTab === 'login' && message) { %>
+        <div class="message <%= message.toLowerCase().includes('error') || message.toLowerCase().includes('invalid') || message.toLowerCase().includes('not') ? 'error' : '' %>">
+          <%= message %>
+        </div>
+      <% } %>
     </form>
 
     <!-- Signup Form -->
     <form id="signupForm" class="form" action="/register" method="POST">
       <div class="input-group">
-        <input type="text" name="username" placeholder="Username" required />
         <i class="fas fa-user"></i>
+        <input type="text" name="username" placeholder="Username" required />
       </div>
       <div class="input-group">
-        <input type="email" name="email" placeholder="Email Address" required />
         <i class="fas fa-envelope"></i>
+        <input type="email" name="email" placeholder="Email Address" required />
       </div>
       <div class="input-group">
-        <input type="password" name="password" placeholder="Password" required />
         <i class="fas fa-lock"></i>
+        <input type="password" name="password" placeholder="Password" required />
       </div>
       <button type="submit">Register</button>
       <p>Already have an account? <label for="tab-login">Login now</label></p>
+
+      <% if (activeTab === 'register' && message) { %>
+        <div class="message <%= message.toLowerCase().includes('error') || message.toLowerCase().includes('already') ? 'error' : '' %>">
+          <%= message %>
+        </div>
+      <% } %>
     </form>
   </div>
 
