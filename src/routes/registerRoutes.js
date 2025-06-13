@@ -8,4 +8,6 @@ router.post("/register", authCtrl.registerUser);
 router.get("/login", authCtrl.showLoginForm);
 router.post("/login", authCtrl.loginUser);
 
+
+
 module.exports = router;
