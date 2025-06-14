@@ -129,7 +129,7 @@
         <div class="collapse" id="movieMenu">
           <ul class="nav flex-column ms-3">
             <li class="nav-item">
-              <a class="nav-link small" href="/admin/movies/create">
+              <a class="nav-link small" href="/admin/movies/add-movie">
                 <i class="bi bi-plus-circle me-1 text-danger"></i> Add Movie
               </a>
             </li>
@@ -167,10 +167,8 @@
 
   <!-- Dashboard Content -->
   <div class="dashboard">
-    <% if (view === 'addmovie') { %>
-      <%- include('addmovie') %>
-    <% } else if (view === 'viewmovies') { %>
-      <%- include('viewmovies') %>
+    <% if (typeof main_content !== 'undefined') { %>
+      <%- include(main_content) %>
     <% } else { %>
       <div class="dashboard-card animate__animated animate__fadeIn">
         <h1 class="text-dark fw-bold mb-3" style="font-size: 2.5rem;">

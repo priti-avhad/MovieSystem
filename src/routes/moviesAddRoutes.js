@@ -12,9 +12,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 router.get("/add-movie", (req, res) => {
-  res.render("AddMovie"); // or whatever your view filename is
+  res.render("AdminPanel.ejs",{
+    main_content : "AddMovie"
+  }); 
 });
-
 
 router.post("/add-movie", upload.single("poster"), movieCtrl.addMove);
 
