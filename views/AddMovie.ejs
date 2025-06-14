@@ -89,14 +89,14 @@
         <i class="bi bi-camera-reels-fill text-danger me-2"></i>Add New Movie
       </h5>
 
-
       <div class="row g-3">
+        <!-- Left Column -->
         <div class="col-md-6">
           <label for="title"><i class="bi bi-film text-primary me-1"></i>Title</label>
           <input type="text" id="title" name="title" class="form-control" required>
 
           <label for="description" class="mt-2"><i class="bi bi-card-text text-primary me-1"></i>Description</label>
-          <textarea id="description" name="description" class="form-control" rows="2" required></textarea>
+          <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
 
           <label for="release_date" class="mt-2"><i class="bi bi-calendar-event text-primary me-1"></i>Release Date</label>
           <input type="date" id="release_date" name="release_date" class="form-control" required>
@@ -104,28 +104,26 @@
           <label for="genre" class="mt-2"><i class="bi bi-tags text-primary me-1"></i>Genre</label>
           <select id="genre" name="genre" class="form-select" required>
             <option disabled selected>Select Genre</option>
-            <option value="action">Action</option>
-            <option value="comedy">Comedy</option>
-            <option value="drama">Drama</option>
-            <option value="sci-fi">Sci-Fi</option>
+            <option value="action">Hollywood</option>
+            <option value="comedy">Bollywood</option>
+            <option value="drama">Historical</option>
+            <option value="sci-fi">Comedy</option>
           </select>
-
-          <label for="poster" class="mt-2"><i class="bi bi-image text-primary me-1"></i>Poster Image</label>
-          <input type="file" id="poster" name="poster" class="form-control" accept="image/*" required>
-
-          <label for="trailer_url" class="mt-2"><i class="bi bi-link-45deg text-primary me-1"></i>Trailer URL</label>
-          <input type="url" id="trailer_url" name="trailer_url" class="form-control" required>
-        </div>
-
-        <div class="col-md-6">
-          <label for="director"><i class="bi bi-person-video3 text-primary me-1"></i>Director</label>
-          <input type="text" id="director" name="director" class="form-control" required>
 
           <label for="language" class="mt-2"><i class="bi bi-translate text-primary me-1"></i>Language</label>
           <input type="text" id="language" name="language" class="form-control" required>
 
           <label for="country" class="mt-2"><i class="bi bi-globe text-primary me-1"></i>Country</label>
           <input type="text" id="country" name="country" class="form-control" required>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-md-6">
+          <label for="director"><i class="bi bi-person-video3 text-primary me-1"></i>Director</label>
+          <input type="text" id="director" name="director" class="form-control" required>
+
+          <label for="poster" class="mt-2"><i class="bi bi-image text-primary me-1"></i>Poster Image</label>
+          <input type="file" id="poster" name="poster" class="form-control" accept="image/*" required>
 
           <label for="budget" class="mt-2"><i class="bi bi-cash-coin text-primary me-1"></i>Budget</label>
           <input type="number" id="budget" name="budget" class="form-control" required>
@@ -135,6 +133,12 @@
 
           <label for="runtime" class="mt-2"><i class="bi bi-clock-history text-primary me-1"></i>Runtime (min)</label>
           <input type="number" id="runtime" name="runtime" class="form-control" required>
+
+          <label for="trailer_url" class="mt-2"><i class="bi bi-link-45deg text-primary me-1"></i>Trailer URL</label>
+          <input type="url" id="trailer_url" name="trailer_url" class="form-control" required>
+
+          <label for="movie_url" class="mt-2"><i class="bi bi-link text-primary me-1"></i>Movie URL</label>
+          <input type="url" id="movie_url" name="movieurl" class="form-control" required>
         </div>
       </div>
 
