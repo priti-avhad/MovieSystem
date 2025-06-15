@@ -6,6 +6,10 @@ exports.viewMovies = (req, res) => {
       console.error("Error fetching movies:", err);
       return res.status(500).send("Database error");
     }
-    res.render("AdminPanel", { view: "viewmovies", movies: result });
+
+    res.render("AdminPanel", {
+      main_content: "viewmovies",  
+      movies: result
+    });
   });
 };
