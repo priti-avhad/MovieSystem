@@ -11,7 +11,7 @@ let homeRoutes = require("../src/routes/homeRoutes");
 let adminRoutes = require("../src/routes/adminRoutes");
 let movieRoutes = require("../src/routes/moviesAddRoutes"); 
 let  { viewMovies } = require("./controllers/viewMovieCtrl.js");
-let viewMovieRoutes = require("../src/routes/viewMovieRoutes.js");
+let viewMovieRoutes = require("../src/routes/viewMovieRoutes");
 
 
 // Middleware
@@ -34,7 +34,7 @@ app.use("/", authRoutes);
 app.use("/", homeRoutes);
 app.use("/", adminRoutes);
 app.use("/admin/movies", movieRoutes); 
-app.use("/",viewMovieRoutes);
+app.use("/admin/movies",viewMovieRoutes);
 
 
 
