@@ -1,22 +1,30 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
 const path = require("path");
-const movieCtrl = require("../controllers/moviesAddCtrl");
-const movieRoutes=require("../routes/moviesAddRoutes");
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "public/images"),
-  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
-});
+const uploadMiddleware = require("../middleware/multer"); // Import Multer middleware
+const movieCtrl = require("../controllers/moviesAddCtrl"); // Controller
 
-const upload = multer({ storage });
+
+// Route: Render Add Movie Form
 router.get("/add-movie", (req, res) => {
-  res.render("AdminPanel.ejs",{
-    main_content : "AddMovie"
-  }); 
+  res.render("AdminPanel.ejs", {
+    main_content: "AddMovie"
+  });
 });
 
-router.post("/add-movie", upload.single("poster"), movieCtrl.addMove);
+// Route: View All Movies
+router.get("/viewmovies", movieCtrl.viewMovies);
+
+// Route: Show Edit Movie Form
+router.get("/edit/:mid", movieCtrl.editMovieForm);
+
+// ✅ Route: Handle Movie Update with poster upload
+router.post("/edit/:mid", uploadMiddleware.single("poster"), movieCtrl.updateMovie);
+
+//delete movie
+router.get('/delete/:mid', movieCtrl.deleteMovie);
+router.post('/delete/:mid', movieCtrl.deleteMovie);
+
 
 module.exports = router;
