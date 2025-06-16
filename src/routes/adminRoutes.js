@@ -8,6 +8,8 @@ let upload=require("../middleware/multer");
 // Admin Dashboard default
 router.get("/admin", movieCtrl.showAdminPanel);
 
+
+
 // Add Movie Form
 router.get("/admin/movies/create", movieCtrl.showAddMovieForm);
 

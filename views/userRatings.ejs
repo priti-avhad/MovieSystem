@@ -17,6 +17,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
     }
 
     .rating-container {
@@ -27,25 +28,10 @@
       border: 2px solid transparent;
       border-radius: 25px;
       padding: 40px;
+      margin: 20px;
       box-shadow: 0 0 40px rgba(255, 255, 255, 0.15), 0 4px 30px rgba(0, 0, 0, 0.3);
       position: relative;
       overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .rating-container::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      padding: 2px;
-      border-radius: 25px;
-      background: linear-gradient(135deg, #00feba, #5b548a);
-      -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
     }
 
     .rating-title {
@@ -83,15 +69,6 @@
       transform: scale(1.1);
     }
 
-    textarea {
-      resize: none;
-    }
-
-    .form-control:focus {
-      box-shadow: 0 0 0 2px #1b9c85;
-      border-color: #1b9c85;
-    }
-
     .btn-submit {
       background: linear-gradient(to right, #00b09b, #96c93d);
       border: none;
@@ -106,38 +83,26 @@
     .btn-submit:hover {
       background: linear-gradient(to right, #96c93d, #00b09b);
     }
-
-    @media (max-width: 500px) {
-      .rating-container {
-        padding: 20px;
-      }
-
-      .star-rating {
-        font-size: 1.8rem;
-      }
-    }
   </style>
 </head>
 <body>
 
   <div class="rating-container">
-    <h2 class="rating-title"><i class="bi bi-star-fill text-warning"></i> Rating Movie</h2>
+    <h2 class="rating-title"><i class="bi bi-star-fill text-warning"></i> Rate Movie</h2>
 
-    <form action="/submit-rating" method="POST">
+    <form action="/submit-rating?mid=<%= movieId %>" method="POST">
+      <input type="hidden" name="mid" value="<%= movieId %>">
+
       <!-- Star Rating -->
       <div class="star-rating">
         <input type="radio" name="rating" id="star5" value="5">
         <label for="star5" class="bi bi-star-fill"></label>
-
         <input type="radio" name="rating" id="star4" value="4">
         <label for="star4" class="bi bi-star-fill"></label>
-
         <input type="radio" name="rating" id="star3" value="3">
         <label for="star3" class="bi bi-star-fill"></label>
-
         <input type="radio" name="rating" id="star2" value="2">
         <label for="star2" class="bi bi-star-fill"></label>
-
         <input type="radio" name="rating" id="star1" value="1" required>
         <label for="star1" class="bi bi-star-fill"></label>
       </div>
@@ -145,7 +110,7 @@
       <!-- Review -->
       <div class="mb-3">
         <label for="review" class="form-label text-white">Your Review</label>
-        <textarea class="form-control" id="review" name="review" rows="4" placeholder="Write your honest review..." required></textarea>
+        <textarea class="form-control" id="review" name="review" rows="4" placeholder="Write your review..." required></textarea>
       </div>
 
       <!-- Submit -->
