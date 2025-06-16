@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const movieCtrl = require("../controllers/movieCtrl");
+let upload=require("../middleware/multer");
 
 // Admin Dashboard default
 router.get("/admin", movieCtrl.showAdminPanel);

@@ -97,6 +97,13 @@
       <p>Explore and manage movie records.</p>
     </div>
 
+    <% if (typeof successMessage !== 'undefined') { %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= successMessage %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+
     <!-- Movie Table -->
     <% if (movies.length > 0) { %>
     <div class="table-responsive">
@@ -120,16 +127,18 @@
               <td><%= movie.genre %></td>
               <td><%= movie.releasedate ? movie.releasedate.toISOString().split("T")[0] : "N/A" %></td>
               <td>
-                <a href="/movies/<%= movie._id %>" class="btn btn-sm btn-info text-white">
+                <a href="/movies/<%= movie.mid %>" class="btn btn-sm btn-info text-white">
                   <i class="bi bi-eye"></i> View
                 </a>
-                <a href="/movies/edit/<%= movie._id %>" class="btn btn-sm btn-warning">
+                <a href="edit/<%= movie.mid %>" class="btn btn-sm btn-warning">
                   <i class="bi bi-pencil-square"></i> Update
                 </a>
-                <form action="/movies/delete/<%= movie.id %>" method="POST" style="display:inline;">
-          <button type="submit" class="btn btn-sm btn-danger" >
-          <i class="bi bi-trash"></i> Delete
-       </button>
+                <form action="/delete/<%= movie.mid %>" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this movie?');">
+                  <button type="submit" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash-fill"></i> Delete
+                  </button>
+                </form>   
+                
       </form>
 
               </td>
