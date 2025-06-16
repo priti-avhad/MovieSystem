@@ -34,6 +34,7 @@ exports.viewMovies = (req, res) => {
   });
 };
 
+
 // edit Movie with id
 exports.editMovieForm = (req, res) => {
   const movieId = req.params.mid;
