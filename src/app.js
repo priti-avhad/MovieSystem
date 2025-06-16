@@ -14,6 +14,7 @@ let  { viewMovies } = require("./controllers/viewMovieCtrl.js");
 let viewMovieRoutes = require("../src/routes/viewMovieRoutes");
 
 
+
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -35,7 +36,6 @@ app.use("/", homeRoutes);
 app.use("/", adminRoutes);
 app.use("/admin/movies", movieRoutes); 
 app.use("/admin/movies",viewMovieRoutes);
-
 
 
 // Export app
