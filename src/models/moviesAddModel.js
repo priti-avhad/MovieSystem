@@ -1,3 +1,4 @@
+// moviesAddModel.js
 const conn = require("../config/db.js");
 
 exports.insertMovie = (movieData, posterurl, callback) => {
