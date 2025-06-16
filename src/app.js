@@ -6,6 +6,16 @@ require("dotenv").config();
 
 let conn = require("../src/config/db.js");
 
+// Routers
+let authRoutes = require("../src/routes/registerRoutes");
+let homeRoutes = require("../src/routes/homeRoutes");
+let adminRoutes = require("../src/routes/adminRoutes");
+let movieRoutes = require("../src/routes/moviesAddRoutes"); 
+let adminRoute = require("../src/routes/adminRoutes");
+// User Panel
+let userRoutes = require("./routes/userPanelRoutes.js");
+let userRoute = require('./routes/userPanelRoutes.js');
+let uRoute=require("../src/routes/userPanelRoutes");
 
 
 // Middleware
@@ -13,18 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
-
-// Routers
-let authRoutes = require("../src/routes/registerRoutes");
-let homeRoutes = require("../src/routes/homeRoutes");
-let adminRoutes = require("../src/routes/adminRoutes");
-let movieRoutes = require("../src/routes/moviesAddRoutes"); 
-let  { viewMovies } = require("./controllers/viewMovieCtrl.js");
-let viewMovieRoutes = require("../src/routes/viewMovieRoutes");
-const editMovieRoutes = require("../src/routes/editMovieRoute");
-
-
-
 
 // Session
 app.use(
@@ -35,17 +33,23 @@ app.use(
   })
 );
 
-// Routes
+// Routes admin
 app.use("/", authRoutes);
 app.use("/", homeRoutes);
 app.use("/", adminRoutes);
 app.use('/', movieRoutes);
 app.use("/admin/movies", movieRoutes); 
 app.use("/admin/movies", require("./routes/moviesAddRoutes"));
+app.use("/admin", adminRoute);
 
 
 // /admin
 // /user
+
+//Routes user
+app.use("/users", userRoutes);
+app.use('/user', userRoute);
+app.use("/user", uRoute);
 
 // Export app
 module.exports = app;
