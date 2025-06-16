@@ -7,7 +7,7 @@ exports.viewMovies = (req, res) => {
       return res.status(500).send("Database error");
     }
 
-    res.render("AdminPanel", {
+    res.render("AdminPanel.ejs", {
       main_content: "viewmovies",  
       movies: result
     });
