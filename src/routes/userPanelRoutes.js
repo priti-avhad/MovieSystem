@@ -8,7 +8,7 @@ router.get("/", userController.userDashboard);
 
 // view movies
 const userCtrl = require("../controllers/usersPanelCtrls");
-router.get("/movies", userCtrl.showMoviesList);
+router.get("/movies", userCtrl.showMoviesList); 
 
 // rating and Review Movies
 router.get("/rate", userController.getRatingForm);
