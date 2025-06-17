@@ -17,12 +17,11 @@ let adminRoutes = require("../src/routes/adminRoutes");
 let movieRoutes = require("../src/routes/moviesAddRoutes");
 let userRoutes = require("./routes/userPanelRoutes.js");
 
-
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
-app.use('/images', express.static('images'));
+app.use("/images", express.static("images"));
 app.set("view engine", "ejs");
 app.use(cookieParser());
 
@@ -36,12 +35,13 @@ app.use(
 );
 
 // Public Routes
-app.use("/", authRoutes);           // login/register
-app.use("/", homeRoutes);           // homepage/dashboard
-app.use("/admin", adminRoutes);     // admin dashboard
+app.use("/", authRoutes); // login/register
+app.use("/", homeRoutes); // homepage/dashboard
+app.use("/admin", adminRoutes); // admin dashboard
 app.use("/admin/movies", movieRoutes); // admin movie CRUD
 
 app.use("/",movieRoutes);
+
 // User Routes (protected)
 app.use("/user", authenticateToken, userRoutes);
 
@@ -50,5 +50,6 @@ app.use("/profile", userRoutes);
 
 // logout user
 app.use("/", userRoutes);
+
 // Export app
 module.exports = app;
