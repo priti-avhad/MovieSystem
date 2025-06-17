@@ -59,11 +59,7 @@ exports.editMovieForm = (req, res) => {
     const msg = req.session.msg;
     req.session.msg = null; // clear it after use
 
-    return res.render("AdminPanel.ejs", {
-      main_content: "editMovie",
-      movie: result[0],
-      msg: msg
-    });
+    return res.render("AdminPanel.ejs", { main_content: "editMovie",movie: result[0],msg: msg});
   });
 };
 
@@ -123,5 +119,53 @@ exports.AdminUserView = (req, res) => {
     }
 
     res.render('AdminPanel', {title: 'Manage Users',main_content: 'AdminUserViews',users: results, msg: null});
+  });
+};
+
+//Admin specific user data view 
+exports.viewUserById = (req, res) => {
+  const uid = req.params.uid;
+
+  movieModel.getUserById(uid, (err, user) => {
+    if (err) {
+      console.error('Error fetching user:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    //res.render('AdminUserDataView', { user });
+    res.render("AdminPanel.ejs", {main_content:"AdminUserDataView",  user:user });
+
+  });
+};
+
+//Admin panel user specific data delete
+exports.deleteUser = (req, res) => {
+  const userId = req.params.uid;
+
+  movieModel.deleteUserById(userId, (err, result) => {
+    if (err) {
+      console.error('Error deleti ng user:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    const successMessage = req.session.successMessage || null;
+    delete req.session.successMessage;
+    res.redirect('/AdminUserViews');  
+  });
+};
+
+//Admin panel show user ratings and reviews
+
+exports.showRatingsForm = (req, res) => {
+  movieModel.getAllRatings((err, ratings) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error fetching ratings");
+    }
+    // Render the EJS and pass the ratings data
+    res.render("AdminPanel.ejs", {main_content:"AdminRatingView",  ratings });
+
   });
 };

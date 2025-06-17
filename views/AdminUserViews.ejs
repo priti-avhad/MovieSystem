@@ -1,58 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>User Management</title>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Management</title>
 
   <!-- Bootstrap & Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-  <!-- Custom Styles -->
   <style>
     body {
-      background: #f3f4f6;
-      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8fafc;
+      overflow-x: hidden;
     }
 
-    /* Header Glassmorphism */
-    .gradient-header {
-      background: rgba(99, 102, 241, 0.7);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 30px 20px;
-      color: white;
-      text-align: center;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      margin-bottom: 30px;
-      animation: slideFade 0.6s ease-in-out;
-    }
-
-    /* Fade-in Slide */
-    @keyframes slideFade {
-      from {
+    /* Animations */
+    @keyframes slideDownFade {
+      0% {
+        transform: translateY(-40px);
         opacity: 0;
-        transform: translateY(40px);
       }
-      to {
-        opacity: 1;
+      100% {
         transform: translateY(0);
+        opacity: 1;
       }
     }
 
-    /* Table Card */
-    .card-custom {
-      border-radius: 16px;
-      background: white;
-      padding: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-      animation: slideFade 0.7s ease;
+    @keyframes fadeUp {
+      0% {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .gradient-header {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      margin-bottom: 30px;
+      animation: slideDownFade 1s ease forwards;
+      animation-delay: 0.1s;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+    }
+
+    .alert {
+      animation: fadeUp 0.8s ease-in-out;
+    }
+
+    .table-container {
+      animation: fadeUp 1s ease-in-out 0.4s forwards;
+      opacity: 0;
     }
 
     .table th {
-      background-color: #dbeafe;
-      color: #111827;
+      background-color: #dbeafe !important;
+      color: #000;
       vertical-align: middle;
     }
 
@@ -60,104 +70,79 @@
       vertical-align: middle;
     }
 
-    /* Buttons */
-    .btn-sm {
-      transition: 0.3s;
-    }
-
     .btn-info {
-      background-color: #0ea5e9;
-      color: white;
+      background-color: #06b6d4;
+      border: none;
     }
 
-    .btn-success {
-      background-color: #22c55e;
-      color: white;
-    }
-
-    .btn-secondary {
-      background-color: #6b7280;
-      color: white;
-    }
-
-    .btn:hover {
-      transform: scale(1.05);
+    .btn-danger {
+      background-color: #ef4444;
+      border: none;
     }
 
     .btn i {
-      margin-right: 4px;
-    }
-
-    /* Role Badge */
-    .badge-role {
-      padding: 6px 12px;
-      font-size: 0.85rem;
-      border-radius: 50px;
-      background-color: #e0f2fe;
-      color: #0369a1;
-    }
-
-    /* Responsive */
-    @media (max-width: 576px) {
-      .gradient-header h4 {
-        font-size: 1.25rem;
-      }
+      margin-right: 5px;
     }
   </style>
 </head>
 
-<body>
+<body class="bg-light">
 
-  <div class="container py-4">
+  <div class="container mt-4">
 
-    <!-- 🔷 Gradient Header -->
+    <!-- Animated Gradient Header -->
     <div class="gradient-header">
       <h4><i class="bi bi-people-fill me-2"></i> User Management</h4>
-      <p class="mb-0">Explore and manage user accounts with ease.</p>
+      <p>Manage all registered users with actions</p>
     </div>
 
-    <!-- 🔘 User Table -->
-    <div class="card-custom">
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle text-center">
-          <thead>
-            <tr>
-              <th>Sr.No</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% users.forEach((user, index) => { %>
-              <tr>
-                <td><%= index + 1 %></td>
-                <td><%= user.uname || 'N/A' %></td>
-                <td><%= user.email || 'N/A' %></td>
-                <td><span class="badge-role"><%= user.role || 'N/A' %></span></td>
-                <td>
-                  <div class="d-flex justify-content-center flex-wrap gap-2">
-                    <a href="/admin/user/view/<%= user.uid %>" class="btn btn-sm btn-info">
-                      <i class="bi bi-eye-fill"></i> View
-                    </a>
-                    <a href="/admin/user/enable/<%= user.uid %>" class="btn btn-sm btn-success">
-                      <i class="bi bi-check-circle-fill"></i> Enable
-                    </a>
-                    <a href="/admin/user/disable/<%= user.uid %>" class="btn btn-sm btn-secondary"
-                       onclick="return confirm('Are you sure you want to disable this user?')">
-                      <i class="bi bi-x-circle-fill"></i> Disable
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
+    <!-- Success Message -->
+    <% if (successMessage) { %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= successMessage %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-    </div>
+    <% } %>
 
+    <!-- Animated Table -->
+    <div class="table-responsive table-container">
+      <table class="table table-bordered table-hover bg-white text-center shadow-sm rounded">
+        <thead>
+          <tr>
+            <th>Sr.No</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach((user, index) => { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= user.uname || 'N/A' %></td>
+              <td><%= user.email || 'N/A' %></td>
+              <td><%= user.role || 'N/A' %></td>
+              <td>
+                <div class="d-flex justify-content-center gap-2 flex-wrap">
+                  <a href="/user/view/<%= user.uid %>" class="btn btn-sm btn-info">
+                    <i class="bi bi-eye-fill"></i> View
+                  </a>
+                  <form action="/users/delete/<%= user.uid %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                    <button type="submit" class="btn btn-danger btn-sm">
+                      <i class="bi bi-trash3-fill"></i> Delete 
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
   </div>
 
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

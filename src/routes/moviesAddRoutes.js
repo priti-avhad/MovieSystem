@@ -33,6 +33,18 @@ router.post("/edit/:mid", uploadMiddleware.single("poster"), movieCtrl.updateMov
 router.get('/delete/:mid', movieCtrl.deleteMovie);
 router.post('/delete/:mid', movieCtrl.deleteMovie);
 
-//Admin User View
+//Admin panel User data View
 router.get('/AdminUserViews', movieCtrl.AdminUserView);
+
+//Admin panel user view specific user info
+router.get('/user/view/:uid', movieCtrl.viewUserById);
+
+//Admin panel delete user
+router.post('/users/delete/:uid', movieCtrl.deleteUser);
+
+
+//Admin pamel show Reviews And Ratings
+router.get('/ratings', movieCtrl.showRatingsForm);
+
+//AdminUserDataView
 module.exports = router;
