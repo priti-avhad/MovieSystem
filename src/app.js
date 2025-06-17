@@ -16,9 +16,12 @@ let homeRoutes = require("../src/routes/homeRoutes");
 let adminRoutes = require("../src/routes/adminRoutes");
 let movieRoutes = require("../src/routes/moviesAddRoutes");
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 let userRoutes = require("./routes/userPanelRoutes.js");
 
 =======
+=======
+>>>>>>> Stashed changes
 let adminRoute = require("../src/routes/adminRoutes");
 // User Panel
 let userRoute = require("./routes/userPanelRoutes.js");
@@ -56,6 +59,10 @@ app.use("/profile", userRoutes);
 <<<<<<< Updated upstream
 // logout user
 app.use("/", userRoutes);
+=======
+
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
