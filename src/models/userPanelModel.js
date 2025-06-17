@@ -26,11 +26,11 @@ exports.insertRating = (uid, mid, rating, review, callback) => {
 
 exports.getAllRatings = (callback) => {
   const sql = `
-    select r.*, u.uname, m.title 
-    from rating r 
-    join user u on r.uid = u.uid 
-    join movies m on r.mid = m.mid 
-    order by BY r.created_at DESC
+    SELECT r.*, u.uname, m.title 
+    FROM rating r 
+    JOIN user u ON r.uid = u.uid 
+    JOIN movies m ON r.mid = m.mid 
+    ORDER BY r.created_at DESC
   `;
   db.query(sql, callback);
 };
@@ -56,8 +56,8 @@ ORDER BY r.created_at DESC`;
 
 // show Profile User
 
-exports.getUserById=(id,callback)=>{
-  const sql = `select * from user where uid = ?`; 
+exports.getUserById = (id, callback) => {
+  const sql = `select * from user where uid = ?`;
   db.query(sql, [id], (err, results) => {
     if (err) {
       console.error("❌ Error fetching user profile:", err);
