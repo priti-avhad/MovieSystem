@@ -3,31 +3,30 @@ let app = express();
 let session = require("express-session");
 let multer = require("multer");
 require("dotenv").config();
+
+let cookieParser = require("cookie-parser");
 let authenticateToken = require("../src/middleware/authenticateToken.js");
 
-let conn = require("../src/config/db.js");
+// Database
+let conn = require("./config/db.js");
 
 // Routers
 let authRoutes = require("../src/routes/registerRoutes");
 let homeRoutes = require("../src/routes/homeRoutes");
-
 let adminRoutes = require("../src/routes/adminRoutes");
 let movieRoutes = require("../src/routes/moviesAddRoutes");
+let userRoutes = require("./routes/userPanelRoutes.js");
 
-let adminRoute = require("../src/routes/adminRoutes");
-// User Panel
-let userRoute = require("./routes/userPanelRoutes.js");
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
-app.use('/images', express.static('images')); 
+app.use('/images', express.static('images'));
 app.set("view engine", "ejs");
-const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-// Session
+// Session Config
 app.use(
   session({
     secret: "secretKey",
@@ -36,21 +35,19 @@ app.use(
   })
 );
 
-// Routes admin
-app.use("/", authRoutes);
-app.use("/", homeRoutes);
+// Public Routes
+app.use("/", authRoutes);           // login/register
+app.use("/", homeRoutes);           // homepage/dashboard
+app.use("/admin", adminRoutes);     // admin dashboard
+app.use("/admin/movies", movieRoutes); // admin movie CRUD
 
-app.use('/', movieRoutes);
-app.use("/admin/movies", movieRoutes); 
-app.use("/admin/movies", require("./routes/moviesAddRoutes"));
+// User Routes (protected)
+app.use("/user", authenticateToken, userRoutes);
 
-app.use("/", adminRoutes);
-app.use("/admin/movies", movieRoutes);
+//user Profile
+app.use("/profile", userRoutes); 
 
-app.use("/admin", adminRoute);
-
-//Routes user
-app.use("/user", authenticateToken, userRoute);
-
+// logout user
+app.use("/", userRoutes);
 // Export app
 module.exports = app;

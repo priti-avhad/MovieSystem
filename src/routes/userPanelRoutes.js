@@ -14,6 +14,13 @@ router.get("/movies", userCtrl.showMoviesList);
 router.get("/rate", userController.getRatingForm);
 router.post("/submit-rating/:mid", userController.submitRating);
 router.get("/ratings", userController.showAllRatings);
-// User Panel Routes
 
+// watchHistory
+router.get("/history", userController.watchHistoryMovies);
+
+// show user profile
+router.get("/profile", userController.getUserProfile);
+
+// Logout user
+router.get('/logout', userController.logoutUser);
 module.exports = router;

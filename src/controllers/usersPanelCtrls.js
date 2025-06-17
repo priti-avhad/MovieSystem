@@ -79,7 +79,7 @@ exports.showMoviesList = async (req, res) => {
 //const RatingModel = require("../models/userPanelModel");
 
 // Show rating form
-// call not
+
 exports.getRatingForm = (req, res) => {
   const movieId = req.query.mid;
   const userId = req.query.uid;
@@ -87,7 +87,6 @@ exports.getRatingForm = (req, res) => {
   if (!movieId || !userId) {
     return res.status(400).send("❌ Missing movieId or userId in URL");
   }
-  console.log("UserId ", userId);
 
   res.render("userRatings", {
     movieId,
@@ -136,4 +135,65 @@ exports.showAllRatings = (req, res) => {
       success, // ✅ pass success flag to EJS
     });
   });
+};
+
+// Watch History Movies
+
+const moviesModel = require("../models/userPanelModel");
+
+// Controller to load watch history
+exports.watchHistoryMovies = (req, res) => {
+  const uid = req.user.id;
+
+  moviesModel.getUserWatchHistory(uid, (err, history) => {
+    if (err) {
+      console.error("❌ Error fetching watch history:", err);
+      return res.status(500).send("Error loading watch history");
+    }
+    console.log("✅ Watch history fetched successfully");
+    // Render main layout with dynamic view
+   res.render("userPanel", {
+  viewFile: "userHistoryView",
+  history,
+  movies: null 
+});
+
+  });
+};
+
+// Get User Profile
+
+exports.getUserProfile = (req, res) => {
+  const userId = req.user.id;
+
+  moviesModel.getUserById(userId, (err, user) => {
+    if (err) {
+      console.error("❌ Error fetching user profile:", err);
+      return res.status(500).send("Error loading profile");
+    }
+
+    console.log("✅ User profile fetched successfully");
+    res.render("UserPanel", { viewFile: "userProfile", user, movies: [] }); // <-- ADD THIS
+  });
+};
+
+// Logout User
+
+exports.logoutUser = (req, res) => {
+  try {
+    res.clearCookie("token");
+    if (req.session) {
+      req.session.destroy((err) => {
+        if (err) {
+          console.log("❌ Session destroy error:", err);
+        }
+        return res.redirect("/login");
+      });
+    } else {
+      return res.redirect("/login");
+    }
+  } catch (err) {
+    console.error("❌ Logout failed:", err);
+    res.status(500).send("Logout failed");
+  }
 };
