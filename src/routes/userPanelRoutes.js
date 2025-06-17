@@ -14,6 +14,11 @@ const userCtrl = require('../controllers/usersPanelCtrls');
 router.get('/movies', userCtrl.showMoviesList);
 
 // rating and Review Movies
+<<<<<<< Updated upstream
 router.get("/rate", userController.getRatingForm);  
+=======
+
+router.get("/rate", userController.getRatingForm); 
+>>>>>>> Stashed changes
 router.post("/submit-rating", userController.submitRating);
 router.get("/ratings", userController.showAllRatings);

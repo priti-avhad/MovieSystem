@@ -89,6 +89,10 @@
 
   <div class="rating-container">
     <h2 class="rating-title"><i class="bi bi-star-fill text-warning"></i> Rate Movie</h2>
+    <h2 class="rating-title"><i class="bi bi-star-fill text-warning"></i> Rate Movie</h2>
+
+    <form action="/submit-rating?mid=<%= movieId %>" method="POST">
+      <input type="hidden" name="mid" value="<%= movieId %>">
 
     <form action="/user/submit-rating?mid=<%= movieId %>" method="POST">
       <input type="hidden" name="mid" value="<%= movieId %>">
