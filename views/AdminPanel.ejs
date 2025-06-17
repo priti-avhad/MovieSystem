@@ -153,11 +153,9 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#"><i class="bi bi-star-fill me-1 text-warning"></i> Ratings</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="#"><i class="bi bi-chat-left-text-fill me-1 text-info"></i> Reviews</a>
+        <a class="nav-link" href="/ratings">
+          <i class="bi bi-star-fill me-1 text-warning"></i> Ratings
+        </a>
       </li>
 
       <li class="nav-item">
@@ -175,8 +173,10 @@
   <!-- Dashboard Content -->
   <div class="dashboard">
     <% if (typeof main_content !== 'undefined') { %>
-      <%- include(main_content,{ msg: typeof msg !== 'undefined' ? msg : null }) %>
-    <% } else { %>
+      <%- include(main_content, { 
+        msg: typeof msg !== 'undefined' ? msg : null,
+        successMessage: typeof successMessage !== 'undefined' ? successMessage : null
+      }) %>    <% } else { %>
       <div class="dashboard-card animate__animated animate__fadeIn">
         <h1 class="text-dark fw-bold mb-3" style="font-size: 2.5rem;">
           <i class="bi bi-speedometer2 me-2 text-primary" style="font-size: 3rem;"></i> Welcome to Admin Dashboard
