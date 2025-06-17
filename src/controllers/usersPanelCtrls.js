@@ -1,70 +1,10 @@
-// user Dashboard
-exports.userDashboard = (req, res) => {
-  res.render("UserPanel");
-};
-
-//view movies
-
 const movieModel = require("../models/userPanelModel");
-
-exports.showMoviesList = async (req, res) => {
-  try {
-    const movies = await movieModel.getAllMovies();
-    res.render("userPanel", { viewFile: "userViewMovies", movies });
-  } catch (error) {
-    console.error("Error fetching movies:", error);
-    res.status(500).send("Internal Server Error");
-  }
-};
-
-// rating and Review Mvoies
-
 const RatingModel = require("../models/userPanelModel");
 
-// Show rating form
-exports.getRatingForm = (req, res) => {
-  const movieId = req.query.mid || 1;
-  res.render("userRatings", { movieId, ratings: null });
-};
-
-// Submit the rating
-exports.submitRating = (req, res) => {
-  log("Received request to submit rating");
-  const { rating, review } = req.body;
-  const uid = req.user.id; // Assuming user ID is stored in req.user
-  console.log("Form Data:", { uid, rating, review });
-  const mid = req.params.mid || 1;
-  if (!uid || !mid || !rating) {
-    return res.status(400).send("❌ Missing user, movie, or rating");
-  }
-  RatingModel.insertRating(uid, mid, rating, review, (err) => {
-    if (err) {
-      console.log("❌ Error inserting rating:", err);
-      return res.status(500).send("Database error");
-    }
-    res.redirect(`/user-rating?mid=${mid}&success=Review added successfully`);
-  });
-};
-
-// Show all ratings (optional usage)
-exports.showAllRatings = (req, res) => {
-  RatingModel.getAllRatings((err, results) => {
-    if (err) {
-      console.log("❌ Error fetching ratings:", err);
-      return res.status(500).send("Database error");
-    }
-    res.render("userRatings", { movieId: null, ratings: results });
-  });
-};
-
 // user Dashboard
 exports.userDashboard = (req, res) => {
   res.render("UserPanel");
 };
-
-//view movies
-
-//const movieModel = require("../models/userPanelModel");
 
 exports.showMoviesList = async (req, res) => {
   try {
@@ -75,10 +15,6 @@ exports.showMoviesList = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
-//const RatingModel = require("../models/userPanelModel");
-
-// Show rating form
 
 exports.getRatingForm = (req, res) => {
   const movieId = req.query.mid;
@@ -95,24 +31,22 @@ exports.getRatingForm = (req, res) => {
   });
 };
 
-// Submit the rating
 exports.submitRating = (req, res) => {
-  const { rating, review, mid } = req.body;
-  const uid = req.user.id;
-  console.log("Form Data:", { mid, rating, review, uid });
-
+  log("Received request to submit rating");
+  const { rating, review } = req.body;
+  const uid = req.user.id; // Assuming user ID is stored in req.user
+  console.log("Form Data:", { uid, rating, review });
+  const mid = req.params.mid || 1;
   if (!uid || !mid || !rating) {
     return res.status(400).send("❌ Missing user, movie, or rating");
   }
-
-  RatingModel.insertRating(uid, mid, rating, review, (err, result) => {
+  RatingModel.insertRating(uid, mid, rating, review, (err) => {
     if (err) {
-      console.error("❌ Database Error:", err);
+      console.log("❌ Error inserting rating:", err);
       return res.status(500).send("Database error");
     }
-    console.log("Rating submitted successfully:", result);
-    // Redirect to the ratings page after submission
-    res.redirect(`/user/movies?mid=${mid}&success=1`);
+    res.redirect(`/user-rating?mid=${mid}&success=Review added successfully`);
+    res.redirect(`/user-rating?mid=${mid}`);
   });
 };
 
@@ -122,51 +56,70 @@ exports.showAllRatings = (req, res) => {
   const userId = req.query.uid;
   const success = req.query.success;
 
-  RatingModel.getAllRatings((err, results) => {
-    if (err) {
-      console.error("❌ Fetch Error:", err);
-      return res.status(500).send("Database error");
-    }
+  // show rating page
 
-    res.render("userViewMovies", {
-      movieId,
-      userId,
-      ratings: results,
-      success, // ✅ pass success flag to EJS
-    });
-  });
+  // RatingModel.getAllRatings((err, results) => {
+  //   if (err) {
+  //     console.error("❌ Fetch Error:", err);
+  //     return res.status(500).send("Database error");
+  //   }
+
+  //   res.render("userViewMovies", { // wrong view file
+  //     movieId,
+  //     userId,
+  //     ratings: results,
+  //     success,
+  //   });
+  // });
 };
 
-// Watch History Movies
+//view movies
 
-const moviesModel = require("../models/userPanelModel");
+// rating and Review Mvoies
+
+// Submit the rating
+exports.submitRating = (req, res) => {
+  console.log("Received request to submit rating");
+  const { rating, review } = req.body;
+  const uid = req.user.id; // Assuming user ID is stored in req.user
+  console.log("Form Data:", { uid, rating, review });
+  const mid = req.params.mid || 1;
+  if (!uid || !mid || !rating) {
+    return res.status(400).send("❌ Missing user, movie, or rating");
+  }
+  RatingModel.insertRating(uid, mid, rating, review, (err) => {
+    if (err) {
+      console.log("❌ Error inserting rating:", err);
+      return res.status(500).send("Database error");
+    }
+    res.redirect(`/user/movies?mid=${mid}&success=Review added successfully`);
+  });
+};
 
 // Controller to load watch history
 exports.watchHistoryMovies = (req, res) => {
   const uid = req.user.id;
-
-  moviesModel.getUserWatchHistory(uid, (err, history) => {
+  console.log("Fetching watch history for user ID:", uid);
+  movieModel.getUserWatchHistory(uid, (err, history) => {
     if (err) {
       console.error("❌ Error fetching watch history:", err);
       return res.status(500).send("Error loading watch history");
     }
     console.log("✅ Watch history fetched successfully");
     // Render main layout with dynamic view
-   res.render("userPanel", {
-  viewFile: "userHistoryView",
-  history,
-  movies: null 
-});
-
+    res.render("userPanel", {
+      viewFile: "userHistoryView",
+      history,
+      movies: null,
+    });
   });
 };
 
 // Get User Profile
-
 exports.getUserProfile = (req, res) => {
   const userId = req.user.id;
 
-  moviesModel.getUserById(userId, (err, user) => {
+  movieModel.getUserById(userId, (err, user) => {
     if (err) {
       console.error("❌ Error fetching user profile:", err);
       return res.status(500).send("Error loading profile");
@@ -178,7 +131,6 @@ exports.getUserProfile = (req, res) => {
 };
 
 // Logout User
-
 exports.logoutUser = (req, res) => {
   try {
     res.clearCookie("token");
