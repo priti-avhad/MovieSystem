@@ -16,8 +16,8 @@
     }
     .form-container {
       max-width: 1100px;
-      max-height: 85vh;
-      overflow-y: auto;
+      /*max-height: 85vh;
+      overflow-y: auto;*/
       margin: 40px auto;
       padding: 20px;
       background-color: #ffffff;
@@ -33,6 +33,12 @@
 <body>
 
   <form action="/admin/movies/edit/<%= movie.mid %>" method="POST" enctype="multipart/form-data">
+    <% if (msg) { %>
+      <div id="success-msg" class="alert alert-success alert-dismissible fade show text-center m-3" role="alert">
+        <%= msg %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
     <!-- Hidden field for existing poster path -->
     <input type="hidden" name="existingPoster" value="<%= movie.posterurl %>">
 
@@ -82,12 +88,8 @@
         </div>
 
         <!-- Column 3 -->
-        <div class="col-md-4">
-          <label for="poster">Poster Image</label>
-          <% if (movie.posterurl) { %>
-            <img src="<%= movie.posterurl %>" alt="Current Poster" class="img-fluid mt-2">
-            <% } %>
-        </div>
+        <img src="<%= movie.posterurl %>" alt="Current Poster" class="img-thumbnail mt-2" style="width: 300px; height: auto;">
+
         
 
           <label for="revenue" class="mt-2">Revenue</label>
@@ -105,18 +107,17 @@
       </div>
 
       <div class="text-center mt-4">
-        <button type="submit" class="btn btn-primary btn-submit">
-          <i class="bi bi-pencil-square me-1"></i>Update Movie
-        </button>
-      </div>
-    </div>
+  <div class="d-flex justify-content-center gap-3">
+    <button type="submit" class="btn btn-primary btn-submit">
+      <i class="bi bi-pencil-square me-1"></i>Update Movie
+    </button>
 
-    <% if (typeof msg !== 'undefined' && msg) { %>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <%= msg %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% } %>
+    <a href="/admin/movies/viewmovies" class="btn btn-secondary">
+      🔙 Back
+    </a>
+  </div>
+</div>
+    </div>
   </form>
 
   <script>

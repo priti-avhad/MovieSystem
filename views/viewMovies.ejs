@@ -128,8 +128,8 @@
               <td><%= movie.genre %></td>
               <td><%= movie.releasedate ? movie.releasedate.toISOString().split("T")[0] : "N/A" %></td>
               <td>
-                <a href="/movies/<%= movie.mid %>" class="btn btn-sm btn-info text-white">
-                  <i class="bi bi-eye"></i> View
+                <a href="/view/<%= movie.mid %>" class="btn btn-info">
+                <i class="bi bi-eye"></i> View
                 </a>
                 <a href="edit/<%= movie.mid %>" class="btn btn-sm btn-warning">
                   <i class="bi bi-pencil-square"></i> Update

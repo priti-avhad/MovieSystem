@@ -10,8 +10,10 @@ let conn = require("../src/config/db.js");
 // Routers
 let authRoutes = require("../src/routes/registerRoutes");
 let homeRoutes = require("../src/routes/homeRoutes");
+
 let adminRoutes = require("../src/routes/adminRoutes");
 let movieRoutes = require("../src/routes/moviesAddRoutes");
+
 let adminRoute = require("../src/routes/adminRoutes");
 // User Panel
 let userRoute = require("./routes/userPanelRoutes.js");
@@ -20,6 +22,7 @@ let userRoute = require("./routes/userPanelRoutes.js");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
+app.use('/images', express.static('images')); 
 app.set("view engine", "ejs");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
@@ -36,8 +39,14 @@ app.use(
 // Routes admin
 app.use("/", authRoutes);
 app.use("/", homeRoutes);
+
+app.use('/', movieRoutes);
+app.use("/admin/movies", movieRoutes); 
+app.use("/admin/movies", require("./routes/moviesAddRoutes"));
+
 app.use("/", adminRoutes);
 app.use("/admin/movies", movieRoutes);
+
 app.use("/admin", adminRoute);
 
 //Routes user

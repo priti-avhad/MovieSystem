@@ -24,16 +24,28 @@ exports.addMovie = (req, res) => {
 
 // view Movies
 exports.viewMovies = (req, res) => {
-  console.log("View All movies");
   movieModel.getAllMovies((err, result) => {
     if (err) {
       log(" Error while geting getAllMovies ", err);
     }
     // console.log(result);
     return res.render("AdminPanel.ejs", {main_content:"viewMovies" ,movies: result });
+    
   });
 };
 
+
+exports.AdminviewMovie = (req, res) => {
+  const movieId = req.params.mid;
+  console.log("Requested Movie ID:", movieId); 
+
+  movieModel.getAllData(movieId, (err, results) => {
+    if (err) return res.status(500).send("Database error");
+    if (results.length === 0) return res.status(404).send("Movie not found");
+
+    res.render("AdminPanel.ejs", {main_content:"AdminViewMovie",  movie: results[0] });
+  });
+};
 
 // edit Movie with id
 exports.editMovieForm = (req, res) => {
@@ -43,11 +55,18 @@ exports.editMovieForm = (req, res) => {
     if (err) {
       console.log("Error in GetMovie ById ", err);
     }
-    console.log(result);
-    // return res.render("editMovie", { movie: result[0] });
-    return res.render("AdminPanel.ejs",{main_content:"editMovie", movie:result[0]});
+
+    const msg = req.session.msg;
+    req.session.msg = null; // clear it after use
+
+    return res.render("AdminPanel.ejs", {
+      main_content: "editMovie",
+      movie: result[0],
+      msg: msg
+    });
   });
 };
+
 
 //Update Movie Form 
 
@@ -69,8 +88,8 @@ exports.updateMovie = (req, res) => {
         console.error("Update DB Error:", err);
         return res.status(500).send("Failed to update movie");
       }
-      res.redirect(`/admin/movies/edit/${movieId}?msg=Movie updated successfully`);
-    });
+      req.session.msg = "Movie updated successfully!";
+      res.redirect(`/admin/movies/edit/${movieId}`);    });
   } catch (err) {
     console.error("Fatal Error in updateMovie:", err);
     return res.status(500).send("Internal Server Error");
@@ -90,5 +109,19 @@ exports.deleteMovie = (req, res) => {
     
     req.session.successMessage = 'Movie deleted successfully!';
     res.redirect('/viewmovies'); 
+  });
+};
+
+
+//AdminViewUsers
+
+exports.AdminUserView = (req, res) => {
+  conn.query('SELECT * FROM user ORDER BY uid', (err, results) => {
+    if (err) {
+      console.log('Error fetching users:', err);
+      return res.status(500).send('Database error');
+    }
+
+    res.render('AdminPanel', {title: 'Manage Users',main_content: 'AdminUserViews',users: results, msg: null});
   });
 };
