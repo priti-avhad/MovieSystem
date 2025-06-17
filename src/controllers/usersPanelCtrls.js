@@ -1,16 +1,31 @@
+<<<<<<< Updated upstream
 // user Dashboard
 exports.userDashboard = (req, res) => {
   res.render("UserPanel");
 };
 
+=======
+ // user Dashboard
+exports.userDashboard = (req, res) => {
+  res.render("UserPanel"); 
+};
+
+
+
+>>>>>>> Stashed changes
 //view movies
 
 const movieModel = require("../models/userPanelModel");
 
 exports.showMoviesList = async (req, res) => {
   try {
+<<<<<<< Updated upstream
     const movies = await movieModel.getAllMovies();
     res.render("userPanel", { viewFile: "userViewMovies", movies });
+=======
+    const movies = await movieModel.getAllMovies(); 
+    res.render('userPanel', { viewFile: 'userViewMovies', movies });
+>>>>>>> Stashed changes
   } catch (error) {
     console.error("Error fetching movies:", error);
     res.status(500).send("Internal Server Error");
@@ -23,12 +38,18 @@ const RatingModel = require("../models/userPanelModel");
 
 // Show rating form
 exports.getRatingForm = (req, res) => {
+<<<<<<< Updated upstream
   const movieId = req.query.mid || 1;
   res.render("userRatings", { movieId, ratings: null });
+=======
+  const movieId = req.query.mid || 1; 
+  res.render("userRatings", { movieId, ratings: null }); 
+>>>>>>> Stashed changes
 };
 
 // Submit the rating
 exports.submitRating = (req, res) => {
+<<<<<<< Updated upstream
   log("Received request to submit rating");
   const { rating, review } = req.body;
   const uid = req.user.id; // Assuming user ID is stored in req.user
@@ -37,12 +58,22 @@ exports.submitRating = (req, res) => {
   if (!uid || !mid || !rating) {
     return res.status(400).send("❌ Missing user, movie, or rating");
   }
+=======
+  const { rating, review } = req.body;
+  const uid = 1; // Static user ID for testing
+  const mid = req.query.mid || 1;
+
+>>>>>>> Stashed changes
   RatingModel.insertRating(uid, mid, rating, review, (err) => {
     if (err) {
       console.log("❌ Error inserting rating:", err);
       return res.status(500).send("Database error");
     }
+<<<<<<< Updated upstream
     res.redirect(`/user-rating?mid=${mid}&success=Review added successfully`);
+=======
+    res.redirect(`/user-rating?mid=${mid}`);
+>>>>>>> Stashed changes
   });
 };
 
@@ -56,6 +87,7 @@ exports.showAllRatings = (req, res) => {
     res.render("userRatings", { movieId: null, ratings: results });
   });
 };
+<<<<<<< Updated upstream
 
 // user Dashboard
 exports.userDashboard = (req, res) => {
@@ -197,3 +229,5 @@ exports.logoutUser = (req, res) => {
     res.status(500).send("Logout failed");
   }
 };
+=======
+>>>>>>> Stashed changes
