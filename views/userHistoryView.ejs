@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Watch History</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .watch-header {
+      width: 100%;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin: 2rem 0;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: white;
+      font-size: 2rem;
+      font-weight: 600;
+      border-radius: 20px;
+    }
+
+    .watch-header i {
+      font-size: 1.8rem;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container mt-4 mb-5">
+    <!-- Header Only Styled -->
+    <div class="watch-header">
+      <i class="bi bi-clock-history"></i>
+      User Watch History
+      <div style="font-size: 1rem; font-weight: 400;">Your rated and reviewed movies in one place.</div>
+    </div>
+
+    <!-- Table (Default Bootstrap Style) -->
+    <% if (history.length > 0) { %>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="table-primary text-center">
+            <tr>
+              <th>Sr</th>
+              <th>Title</th>
+              <th>Genre</th>
+              <th>Language</th>
+              <th>Rating</th>
+              <th>Review</th>
+              <th>Watched On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% history.forEach((item, index) => { %>
+  <tr>
+    <td><%= index + 1 %></td>
+    <td><%= item.title %></td>
+    <td><%= item.genre %></td>
+    <td><%= item.language %></td>
+    <td><%= item.rating %>/5</td>
+    <td><%= item.review %></td>
+    <td><%= new Date(item.created_at).toLocaleString() %></td>
+  </tr>
+<% }); %>
+
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="alert alert-info text-center">
+        <i class="bi bi-info-circle-fill"></i> You haven't rated or watched any movies yet.
+      </div>
+    <% } %>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

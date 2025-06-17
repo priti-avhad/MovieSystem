@@ -26,11 +26,46 @@ exports.insertRating = (uid, mid, rating, review, callback) => {
 
 exports.getAllRatings = (callback) => {
   const sql = `
-    SELECT r.*, u.uname, m.title 
-    FROM rating r 
-    JOIN user u ON r.uid = u.uid 
-    JOIN movies m ON r.mid = m.mid 
-    ORDER BY r.created_at DESC
+    select r.*, u.uname, m.title 
+    from rating r 
+    join user u on r.uid = u.uid 
+    join movies m on r.mid = m.mid 
+    order by BY r.created_at DESC
   `;
   db.query(sql, callback);
+};
+
+// Get watch history for a user
+
+exports.getUserWatchHistory = (uid, callback) => {
+  const sql = `
+   SELECT r.*, u.uname, m.title, m.genre, m.language 
+FROM rating r 
+JOIN user u ON r.uid = u.uid 
+JOIN movies m ON r.mid = m.mid 
+ORDER BY r.created_at DESC`;
+
+  db.query(sql, [uid], (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching watch history:", err);
+      return callback(err);
+    }
+    callback(null, results);
+  });
+};
+
+// show Profile User
+
+exports.getUserById=(id,callback)=>{
+  const sql = `select * from user where uid = ?`; 
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching user profile:", err);
+      return callback(err);
+    }
+    if (results.length === 0) {
+      return callback(new Error("User not found"));
+    }
+    callback(null, results[0]);
+  });
 };
