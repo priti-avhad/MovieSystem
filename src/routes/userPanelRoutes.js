@@ -12,7 +12,7 @@ router.get("/movies", userCtrl.showMoviesList);
 
 // rating and Review Movies
 router.get("/rate", userController.getRatingForm);
-router.post("/submit-rating", userController.submitRating);
+router.post("/submit-rating/:mid", userController.submitRating);
 router.get("/ratings", userController.showAllRatings);
 // User Panel Routes
 
