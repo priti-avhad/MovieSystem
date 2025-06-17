@@ -1,8 +1,9 @@
 let express = require("express");
 let app = express();
 let session = require("express-session");
-let multer=require("multer");
+let multer = require("multer");
 require("dotenv").config();
+let authenticateToken = require("../src/middleware/authenticateToken.js");
 
 let conn = require("../src/config/db.js");
 
@@ -23,6 +24,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
 // Session
 app.use(
@@ -37,14 +40,9 @@ app.use(
 app.use("/", authRoutes);
 app.use("/", homeRoutes);
 app.use("/", adminRoutes);
-app.use('/', movieRoutes);
 app.use("/admin/movies", movieRoutes); 
-app.use("/admin/movies", require("./routes/moviesAddRoutes"));
 app.use("/admin", adminRoute);
 
-
-// /admin
-// /user
 
 //Routes user
 app.use("/users", userRoutes);
