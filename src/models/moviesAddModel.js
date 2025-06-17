@@ -42,8 +42,16 @@ exports.getMovieById = (id,callback)=>{
       return callback(err,null);
     }
     return callback(null,result);
-  })
-}
+  });
+};
+
+exports.getAllData = (id, callback) => {
+  const query = `SELECT * FROM movies WHERE mid = ?`;
+  conn.query(query, [id], (err, results) => {
+    if (err) return callback(err, null);
+    callback(null, results);
+  });
+};
 
 // Update movie by ID
 exports.updateMovie = (id, data, callback) => {
@@ -55,28 +63,14 @@ exports.updateMovie = (id, data, callback) => {
       posterurl = ?, trailerurl = ?, movieurl = ?, updated_at = NOW()
     WHERE mid = ?
   `;
+  const values = [data.title,data.description,data.releasedate,data.genre,data.director, data.language,data.country,data.budget, data.revenue,data.runtime,data.posterurl,
+    data.trailerurl,data.movieurl,id];
+    conn.query(sql, values, callback);
+  };
 
-  const values = [
-    data.title,
-    data.description,
-    data.releasedate,
-    data.genre,
-    data.director,
-    data.language,
-    data.country,
-    data.budget,
-    data.revenue,
-    data.runtime,
-    data.posterurl,
-    data.trailerurl,
-    data.movieurl,
-    id
-  ];
-
-  conn.query(sql, values, callback);
-};
-
-exports.deleteMovieById = (mid, callback) => {
+  //delete movie
+exports.deleteMovieById =(mid, callback)=>
+{
   const sql = 'DELETE FROM movies WHERE mid = ?';
   conn.query(sql, [mid], callback);
 };

@@ -9,7 +9,6 @@ let conn = require("../src/config/db.js");
 // Routers
 let authRoutes = require("../src/routes/registerRoutes");
 let homeRoutes = require("../src/routes/homeRoutes");
-let adminRoutes = require("../src/routes/adminRoutes");
 let movieRoutes = require("../src/routes/moviesAddRoutes"); 
 let adminRoute = require("../src/routes/adminRoutes");
 // User Panel
@@ -22,6 +21,7 @@ let uRoute=require("../src/routes/userPanelRoutes");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
+app.use('/images', express.static('images')); 
 app.set("view engine", "ejs");
 
 // Session
@@ -36,7 +36,6 @@ app.use(
 // Routes admin
 app.use("/", authRoutes);
 app.use("/", homeRoutes);
-app.use("/", adminRoutes);
 app.use('/', movieRoutes);
 app.use("/admin/movies", movieRoutes); 
 app.use("/admin/movies", require("./routes/moviesAddRoutes"));

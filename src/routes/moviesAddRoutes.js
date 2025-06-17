@@ -16,6 +16,13 @@ router.get("/add-movie", (req, res) => {
 // Route: View All Movies
 router.get("/viewmovies", movieCtrl.viewMovies);
 
+// back to view movie page
+router.get("/viewMovies", movieCtrl.viewMovies);
+
+//Admin specific movie view
+router.get("/view/:mid", movieCtrl.AdminviewMovie);
+
+
 // Route: Show Edit Movie Form
 router.get("/edit/:mid", movieCtrl.editMovieForm);
 
@@ -26,5 +33,6 @@ router.post("/edit/:mid", uploadMiddleware.single("poster"), movieCtrl.updateMov
 router.get('/delete/:mid', movieCtrl.deleteMovie);
 router.post('/delete/:mid', movieCtrl.deleteMovie);
 
-
+//Admin User View
+router.get('/AdminUserViews', movieCtrl.AdminUserView);
 module.exports = router;
