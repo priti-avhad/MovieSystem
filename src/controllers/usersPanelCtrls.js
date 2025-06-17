@@ -62,7 +62,7 @@ exports.userDashboard = (req, res) => {
 
 //view movies
 
-const movieModel = require("../models/userPanelModel");
+//const movieModel = require("../models/userPanelModel");
 
 exports.showMoviesList = async (req, res) => {
   try {
@@ -74,7 +74,7 @@ exports.showMoviesList = async (req, res) => {
   }
 };
 
-const RatingModel = require("../models/userPanelModel");
+//const RatingModel = require("../models/userPanelModel");
 
 // Show rating form
 // call not
@@ -126,7 +126,7 @@ exports.showAllRatings = (req, res) => {
       console.error("❌ Fetch Error:", err);
       return res.status(500).send("Database error");
     }
-    res.render("userRatings", {
+    res.render("userViewMovies", {
       movieId,
       userId,
       ratings: null,

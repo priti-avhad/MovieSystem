@@ -11,20 +11,12 @@ let conn = require("../src/config/db.js");
 let authRoutes = require("../src/routes/registerRoutes");
 let homeRoutes = require("../src/routes/homeRoutes");
 let adminRoutes = require("../src/routes/adminRoutes");
-<<<<<<< Updated upstream
 let movieRoutes = require("../src/routes/moviesAddRoutes");
 let adminRoute = require("../src/routes/adminRoutes");
-// User Panel
-let userRoute = require("./routes/userPanelRoutes.js");
-=======
-let movieRoutes = require("../src/routes/moviesAddRoutes"); 
-let adminRoute = require("../src/routes/adminRoutes");
+
 // User Panel
 let userRoutes = require("./routes/userPanelRoutes.js");
-let userRoute = require('./routes/userPanelRoutes.js');
-let uRoute=require("../src/routes/userPanelRoutes");
-
->>>>>>> Stashed changes
+let uRoute = require("./routes/userPanelRoutes.js");
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -47,24 +39,18 @@ app.use(
 app.use("/", authRoutes);
 app.use("/", homeRoutes);
 app.use("/", adminRoutes);
-<<<<<<< Updated upstream
 app.use("/", movieRoutes);
 app.use("/admin/movies", movieRoutes);
 app.use("/admin/movies", require("./routes/moviesAddRoutes"));
-=======
-app.use("/admin/movies", movieRoutes); 
->>>>>>> Stashed changes
 app.use("/admin", adminRoute);
 
-// /admin
-// /user
 
 //Routes user
-app.use("/user", authenticateToken, userRoute);
+app.use("/user", authenticateToken, userRoutes);
 
 //Routes user
 app.use("/users", userRoutes);
-app.use('/user', userRoute);
+app.use('/user', userRoutes);
 app.use("/user", uRoute);
 
 // Export app
