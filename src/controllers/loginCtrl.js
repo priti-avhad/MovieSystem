@@ -1,3 +1,4 @@
+const session = require("express-session");
 const jwt = require("jsonwebtoken");
 let storedName = "";
 let storedPassword = "";
@@ -21,10 +22,13 @@ exports.showLoginForm = (req, res) => {
 
 exports.loginUser = (req, res) => {
   const { name, password, role } = req.body;
-
+  console.log(name,password,role);
+  
   if (name === storedName && password === storedPassword && role === storedRole) {
+    
     const token = jwt.sign({ name, role }, SECRET_KEY, { expiresIn: "1h" });
-
+    
+    // req.session.user = 
     if (role === "Admin") {
       res.render("adminpanel", { name }); // ✅ render admin panel
     } else {
