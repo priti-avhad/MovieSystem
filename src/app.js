@@ -15,8 +15,14 @@ let authRoutes = require("../src/routes/registerRoutes");
 let homeRoutes = require("../src/routes/homeRoutes");
 let adminRoutes = require("../src/routes/adminRoutes");
 let movieRoutes = require("../src/routes/moviesAddRoutes");
+
 let userRoutes = require("./routes/userPanelRoutes.js");
 
+let userRoutes = require("./routes/userPanelRoutes.js");
+let adminRoute = require("../src/routes/adminRoutes");
+// User Panel
+let userRoute = require("./routes/userPanelRoutes.js");
+// User Panel
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -47,7 +53,10 @@ app.use("/user", authenticateToken, userRoutes);
 //user Profile
 app.use("/profile", userRoutes); 
 
+
 // logout user
 app.use("/", userRoutes);
+
+
 // Export app
 module.exports = app;
