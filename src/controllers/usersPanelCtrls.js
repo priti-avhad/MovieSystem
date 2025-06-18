@@ -81,7 +81,7 @@ exports.showAllRatings = (req, res) => {
 exports.submitRating = (req, res) => {
   console.log("Received request to submit rating");
   const { rating, review } = req.body;
-  const uid = req.user.id; // Assuming user ID is stored in req.user
+  const uid = req.user.uid; // Assuming user ID is stored in req.user
   console.log("Form Data:", { uid, rating, review });
   const mid = req.params.mid || 1;
   if (!uid || !mid || !rating) {

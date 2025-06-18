@@ -3,15 +3,44 @@ const conn = require('../config/db');
 
 exports.addMovie = async (req, res) => {
   try {
-    const { title, description, releasedate, genre, director, language, country, budget, revenue, runtime, trailer_url, movie_url } = req.body;
+    const {
+      title, description, releasedate, genre,
+      director, language, country, budget,
+      revenue, runtime, trailer_url, movie_url
+    } = req.body;
+
     const posterurl = req.file ? "/uploads/" + req.file.filename : null;
 
-    // Insert into DB here...
+    const movieData = {
+      title,
+      description,
+      release_date: releasedate,
+      genre,
+      director,
+      language,
+      country,
+      budget,
+      revenue,
+      runtime,
+      trailer_url,
+      movieurl: movie_url
+    };
 
-    res.render("AdminPanel.ejs", {
-      main_content: "AddMovie",
-      msg: "Movie added successfully!"
+    movieModel.insertMovie(movieData, posterurl, (err, result) => {
+      if (err) {
+        console.error("DB Insert Error:", err);
+        return res.render("AdminPanel.ejs", {
+          main_content: "AddMovie",
+          msg: "Failed to add movie. Please try again."
+        });
+      }
+
+      res.render("AdminPanel.ejs", {
+        main_content: "AddMovie",
+        msg: "🎉 Movie added successfully!"
+      });
     });
+
   } catch (err) {
     console.error("Add Movie Error:", err);
     res.render("AdminPanel.ejs", {
@@ -165,5 +194,56 @@ exports.showRatingsForm = (req, res) => {
     // Render the EJS and pass the ratings data
     res.render("AdminPanel.ejs", {main_content:"AdminRatingView",  ratings });
 
+  });
+};
+
+// View Admin Profile
+exports.getAdminProfile = (req, res) => {
+  const admin = req.session.admin;
+
+  // ✅ Fix infinite redirect loop
+  if (!admin) return res.redirect('/admin/AdminProfileView');
+
+  res.render('AdminPanel.ejs', {
+    main_content: 'AdminProfileView',
+    admin,
+  });
+};
+
+// Show Update Form
+exports.getAdminProfileUpdate = (req, res) => {
+  const admin = req.session.admin;
+  if (!admin) return res.redirect('/admin/login');
+
+  const msg = req.session.msg;
+  const error = req.session.error;
+  req.session.msg = null;
+  req.session.error = null;
+
+  res.render('AdminPanel', {
+    main_content: 'AdminProfileUpdate',
+    admin,
+    msg,
+    error
+  });
+};
+
+// Handle POST Update
+exports.postAdminProfileUpdate = (req, res) => {
+  const { uid } = req.session.admin;
+  const { uname, email } = req.body;
+
+  movieModel.updateProfile(uid, uname, email, (err, result) => {
+    if (err) {
+      req.session.error = 'Failed to update profile.';
+      return res.redirect('/AdminProfileUpdate');
+    }
+
+    // Update session
+    req.session.admin.uname = uname;
+    req.session.admin.email = email;
+
+    req.session.msg = 'Data updated successfully!';
+    res.redirect('/AdminProfileUpdate');
   });
 };
