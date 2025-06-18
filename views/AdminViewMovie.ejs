@@ -23,8 +23,11 @@
             <p class="card-text"><strong>Description:</strong> <%= movie.description %></p>
             <p class="card-text"><strong>Director:</strong> <%= movie.director %></p>
             <p class="card-text"><strong>Genre:</strong> <%= movie.genre %></p>
-            <p class="card-text"><strong>Release Date:</strong> <%= movie.releasedate.toISOString().split('T')[0] %></p>
-            <p class="card-text"><strong>Language:</strong> <%= movie.language %></p>
+            <p class="card-text">
+              <strong>Release Date:</strong>
+              <%= movie.releasedate ? new Date(movie.releasedate).toISOString().split('T')[0] : 'N/A' %>
+            </p>
+                        <p class="card-text"><strong>Language:</strong> <%= movie.language %></p>
             <p class="card-text"><strong>Country:</strong> <%= movie.country %></p>
             <p class="card-text"><strong>Budget:</strong> ₹<%= movie.budget %></p>
             <p class="card-text"><strong>Revenue:</strong> ₹<%= movie.revenue %></p>

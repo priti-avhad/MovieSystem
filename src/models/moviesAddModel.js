@@ -64,10 +64,16 @@ exports.updateMovie = (id, data, callback) => {
       posterurl = ?, trailerurl = ?, movieurl = ?, updated_at = NOW()
     WHERE mid = ?
   `;
-  const values = [data.title,data.description,data.releasedate,data.genre,data.director, data.language,data.country,data.budget, data.revenue,data.runtime,data.posterurl,
-    data.trailerurl,data.movieurl,id];
-    conn.query(sql, values, callback);
-  };
+
+  const values = [
+    data.title, data.description, data.releasedate, data.genre, data.director,
+    data.language, data.country, data.budget, data.revenue, data.runtime,
+    data.posterurl, data.trailerurl, data.movieurl, id
+  ];
+
+  conn.query(sql, values, callback); // ✅ Execute the query
+};
+
 
   //delete movie
 exports.deleteMovieById =(mid, callback)=>
@@ -107,3 +113,38 @@ exports.getAllRatings = (callback) => {
     callback(null, results);
   });
 };
+
+
+const Admin = {
+  // Find admin by email (for login)
+  findByEmail: (email, callback) => {
+    const sql = 'SELECT * FROM user WHERE email = ?';
+    db.query(sql, [email], callback);
+  },
+
+  // Find admin by ID
+  findById: (uid, callback) => {
+    const sql = 'SELECT * FROM user WHERE uid = ?';
+    db.query(sql, [uid], callback);
+  },
+  getAll: (callback) => {
+    const sql = 'SELECT * FROM user';
+    db.query(sql, callback);
+  }
+};
+
+//update admin profile
+exports.getAdminProfileUpdate = (req, res) => {
+  const admin = req.session.admin;
+  if (!admin) return res.redirect('/login');
+
+  res.render('AdminProfileUpdate', { admin });
+};
+
+// POST: Handle Update Submission
+// Update Admin Profile
+exports.updateProfile = (uid, uname, email, callback) => {
+  const sql = 'UPDATE user SET uname = ?, email = ?, updated_at = NOW() WHERE uid = ?';
+  conn.query(sql, [uname, email, uid], callback);
+};
+

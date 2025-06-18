@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
 const { findUserByEmail, insertUser } = require("../models/userModel");
 
 const showRegisterForm = (req, res) => {
@@ -8,6 +9,7 @@ const showRegisterForm = (req, res) => {
 
 const showLoginForm = (req, res) => {
   res.render("login", { message: null, activeTab: "login" });
+
 };
 
 const registerUser = (req, res) => {
@@ -46,8 +48,7 @@ const registerUser = (req, res) => {
 };
 
 const loginUser = (req, res) => {
-  const { email, password, role } = req.body;
-  console.log("1  ", email, password, role);
+  const { email, password} = req.body;
 
   findUserByEmail(email, (err, result) => {
     if (err) {
@@ -63,10 +64,8 @@ const loginUser = (req, res) => {
         activeTab: "login",
       });
     }
-    console.log("2  User is log in ", result);
 
     const user = result[0];
-    console.log("2a  User is log in ", user);
 
     const validPassword = bcrypt.compareSync(password, user.password);
     if (!validPassword) {
@@ -76,7 +75,6 @@ const loginUser = (req, res) => {
       });
     }
 
-    // Assuming you get user from DB and it has user.uid
 
     const token = jwt.sign(
       {
@@ -88,25 +86,18 @@ const loginUser = (req, res) => {
       { expiresIn: "1h" }
     );
 
-    console.log("3  Token for user ", token);
     res.cookie("token", token, { httpOnly: true });
 
-    // Redirect based on role
-    if (role == "User") {
-      console.log("41 User role to dashbaord ");
+    if ( user.role === "admin") {
 
-      return res.redirect("/user");
-    }
-    if (role === "Admin") {
-      console.log("4a   Admin role view ");
-
-      const selectedView = req.query.view || "dashboard";
-      res.render("AdminPanel", { view: selectedView });
-    } else if (role === "User") {
-      return res.render("UserPanel", { name: user.username }); // Create UserPanel.ejs
+      req.session.admin = user;
+      // const selectedView = req.query.view || "dashboard";
+      // res.render("AdminPanel", { view: selectedView });
+      res.render("AdminPanel");
+    } else if ( user.role === "user") {
+      return res.render("UserPanel"); // Create UserPanel.ejs
+      // return res.render("UserPanel", { name: user.username }); // Create UserPanel.ejs
     } else {
-      console.log("4b   Else view ");
-
       return res.render("login", {
         message: "Invalid role selected.",
         activeTab: "login",

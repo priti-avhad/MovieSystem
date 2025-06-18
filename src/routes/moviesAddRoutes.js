@@ -5,6 +5,13 @@ const path = require("path");
 const uploadMiddleware = require("../middleware/multer"); // Import Multer middleware
 const movieCtrl = require("../controllers/moviesAddCtrl"); // Controller
 
+//Home page
+
+router.get("/admin",(req,res)=>
+{
+  res.render("AdminPanel.ejs");
+});
+
 
   // Route: Render Add Movie Form
   router.get("/add-movie", (req, res) => {
@@ -13,9 +20,8 @@ const movieCtrl = require("../controllers/moviesAddCtrl"); // Controller
       
     });
   });
-
-
   router.post("/add-movie", uploadMiddleware.single("poster"), movieCtrl.addMovie);
+
 
 
 // Route: View All Movies
@@ -51,5 +57,9 @@ router.post('/users/delete/:uid', movieCtrl.deleteUser);
 //Admin pamel show Reviews And Ratings
 router.get('/ratings', movieCtrl.showRatingsForm);
 
-//AdminUserDataView
+router.get('/admin/AdminProfileView', movieCtrl.getAdminProfile);
+router.get('/AdminProfileUpdate', movieCtrl.getAdminProfileUpdate);
+router.post('/AdminProfileUpdate', movieCtrl.postAdminProfileUpdate);
+
+
 module.exports = router;
