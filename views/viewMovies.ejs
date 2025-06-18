@@ -159,6 +159,80 @@
     <% } %>
   </div>
 
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const rows = Array.from(document.querySelectorAll("tbody tr"));
+    const rowsPerPage = 7; // Show 7 rows per page
+    let currentPage = 1;
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+    const table = document.querySelector("table");
+    const paginationContainer = document.createElement("div");
+    paginationContainer.className = "d-flex justify-content-center mt-4";
+    table.parentNode.appendChild(paginationContainer);
+
+    function renderPage(page) {
+      const start = (page - 1) * rowsPerPage;
+      const end = page * rowsPerPage;
+      rows.forEach((row, index) => {
+        row.style.display = index >= start && index < end ? "table-row" : "none";
+      });
+      renderPaginationControls();
+    }
+
+    function renderPaginationControls() {
+      paginationContainer.innerHTML = "";
+
+      const pagination = document.createElement("ul");
+      pagination.className = "pagination";
+
+      // Previous button
+      const prev = document.createElement("li");
+      prev.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
+      prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+      prev.onclick = (e) => {
+        e.preventDefault();
+        if (currentPage > 1) {
+          currentPage--;
+          renderPage(currentPage);
+        }
+      };
+      pagination.appendChild(prev);
+
+      // Page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement("li");
+        li.className = `page-item ${currentPage === i ? "active" : ""}`;
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.onclick = (e) => {
+          e.preventDefault();
+          currentPage = i;
+          renderPage(currentPage);
+        };
+        pagination.appendChild(li);
+      }
+
+      // Next button
+      const next = document.createElement("li");
+      next.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
+      next.innerHTML = `<a class="page-link" href="#">Next</a>`;
+      next.onclick = (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderPage(currentPage);
+        }
+      };
+      pagination.appendChild(next);
+
+      paginationContainer.appendChild(pagination);
+    }
+
+    renderPage(currentPage);
+  });
+</script>
+
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

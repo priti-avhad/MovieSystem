@@ -81,7 +81,7 @@ exports.showAllRatings = (req, res) => {
 exports.submitRating = (req, res) => {
   console.log("Received request to submit rating");
   const { rating, review } = req.body;
-  const uid = req.user.id; // Assuming user ID is stored in req.user
+  const uid = req.user.uid; // Assuming user ID is stored in req.user
   console.log("Form Data:", { uid, rating, review });
   const mid = req.params.mid || 1;
   if (!uid || !mid || !rating) {
@@ -95,6 +95,22 @@ exports.submitRating = (req, res) => {
     res.redirect(`/user/movies?mid=${mid}&success=Review added successfully`);
   });
 };
+
+// show all rating
+
+exports.showAllRatingsPage=(req,res)=>{
+  RatingModel.getAllRatings((err,results)=>{
+    if(err){
+      console.log("Error fetching ratings:",err);
+      return res.status(500).send("Internal Server error");
+    }
+    res.render("UserPanel", {
+      viewFile: "userViewRating",
+      ratings: results,
+      movies: req.query.success || null,
+    });
+  });
+}
 
 // Controller to load watch history
 
@@ -117,10 +133,8 @@ exports.watchHistoryMovies = (req, res) => {
 
 // Get User Profile
 exports.getUserProfile = (req, res) => {
-  console.log(" helloe getuser ");
 
   const userId = req.user.uid;
-  console.log(" helloe getuser ", userId);
 
   movieModel.getUserById(userId, (err, user) => {
     if (err) {
@@ -129,7 +143,7 @@ exports.getUserProfile = (req, res) => {
     }
 
     console.log("✅ User profile fetched successfully");
-    res.render("UserPanel", { viewFile: "userProfile", user, movies: [] }); // <-- ADD THIS
+    res.render("UserPanel", { viewFile: "userProfile", user, movies: [] }); 
   });
 };
 
