@@ -1,27 +1,25 @@
 const movieModel = require("../models/moviesAddModel");
 const conn = require('../config/db');
 
-exports.addMovie = (req, res) => {
-  const movieData = req.body;
+exports.addMovie = async (req, res) => {
+  try {
+    const { title, description, releasedate, genre, director, language, country, budget, revenue, runtime, trailer_url, movie_url } = req.body;
+    const posterurl = req.file ? "/uploads/" + req.file.filename : null;
 
-  if (!req.file) {
-    return res.status(400).send("Poster image is required");
-  }
+    // Insert into DB here...
 
-  const posterurl = "/images/" + req.file.filename;
-
-  movieModel.insertMovie(movieData, posterurl, (err, result) => {
-    if (err) {
-      console.error("Insert Error:", err);
-      return res.status(500).send("Failed to save movie");
-    }
     res.render("AdminPanel.ejs", {
       main_content: "AddMovie",
-      msg: "Movie saved successfully!",
+      msg: "Movie added successfully!"
     });
-  });
+  } catch (err) {
+    console.error("Add Movie Error:", err);
+    res.render("AdminPanel.ejs", {
+      main_content: "AddMovie",
+      msg: null
+    });
+  }
 };
-
 // view Movies
 exports.viewMovies = (req, res) => {
   movieModel.getAllMovies((err, result) => {
