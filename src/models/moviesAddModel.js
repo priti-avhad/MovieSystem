@@ -45,6 +45,7 @@ exports.getMovieById = (id,callback)=>{
   });
 };
 
+//show specific all data
 exports.getAllData = (id, callback) => {
   const query = `SELECT * FROM movies WHERE mid = ?`;
   conn.query(query, [id], (err, results) => {

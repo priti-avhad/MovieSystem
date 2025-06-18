@@ -6,12 +6,17 @@ const uploadMiddleware = require("../middleware/multer"); // Import Multer middl
 const movieCtrl = require("../controllers/moviesAddCtrl"); // Controller
 
 
-// Route: Render Add Movie Form
-router.get("/add-movie", (req, res) => {
-  res.render("AdminPanel.ejs", {
-    main_content: "AddMovie"
+  // Route: Render Add Movie Form
+  router.get("/add-movie", (req, res) => {
+    res.render("AdminPanel.ejs", {
+      main_content: "AddMovie"
+      
+    });
   });
-});
+
+
+  router.post("/add-movie", uploadMiddleware.single("poster"), movieCtrl.addMovie);
+
 
 // Route: View All Movies
 router.get("/viewmovies", movieCtrl.viewMovies);

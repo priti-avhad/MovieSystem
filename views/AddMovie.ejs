@@ -89,7 +89,7 @@
 </head>
 <body>
 
-  <form action="/admin/movies/add-movie" method="POST" enctype="multipart/form-data">
+  <form action="/admin/movies/add-movie" method="post" enctype="multipart/form-data">
     <div class="container form-container">
       <h5 class="text-center mb-3">
         <i class="bi bi-camera-reels-fill text-danger me-2"></i>Add New Movie
@@ -159,22 +159,22 @@
       </div>
     </div>
 
-    <% if (typeof msg !== 'undefined') { %>
-    <div class="alert alert-success alert-dismissible fade show text-center m-3"id="success-msg" role="alert">
-      <strong><i class="bi bi-check-circle-fill me-1"></i><%= msg %></strong>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+    <% if (typeof msg !== 'undefined' && msg) { %>
+      <div class="alert alert-success alert-dismissible fade show text-center m-3" id="success-msg" role="alert">
+        <strong><i class="bi bi-check-circle-fill me-1"></i><%= msg %></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    
+      <script>
+        window.addEventListener('DOMContentLoaded', () => {
+          setTimeout(() => {
+            const msg = document.getElementById('success-msg');
+            if (msg) msg.style.display = 'none';
+          }, 3000); // hide after 3 seconds
+        });
+      </script>
     <% } %>
+    
   </form>
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      const msg = document.getElementById('success-msg');
-      if (msg) {
-        msg.style.display = 'none';
-      }
-    }, 3000); // 3000ms = 3 seconds
-  });
-  </script>
 </body>
 </html>

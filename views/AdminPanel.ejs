@@ -183,12 +183,6 @@
             </a>
           </li>
 
-          <!-- <li class="nav-item">
-  <a class="nav-link" href="/users">
-    <i class="bi bi-person-circle me-1 text-success"></i> Users
-  </a>
-</li> -->
-
           <li class="nav-item">
             <a class="nav-link" href="/ratings">
               <i class="bi bi-star-fill me-1 text-warning"></i> Ratings
@@ -212,10 +206,10 @@
 
       <!-- Dashboard Content -->
       <div class="dashboard">
-        <% if (typeof main_content !== 'undefined') { %> <%-
-        include(main_content, { msg: typeof msg !== 'undefined' ? msg : null,
-        successMessage: typeof successMessage !== 'undefined' ? successMessage :
-        null }) %> <% } else { %>
+          <% if (typeof main_content !== 'undefined') { %> <%-
+          include(main_content, { msg: typeof msg !== 'undefined' ? msg : null,
+          successMessage: typeof successMessage !== 'undefined' ? successMessage :
+          null }) %> <% } else { %>
         <div class="dashboard-card animate__animated animate__fadeIn">
           <h1 class="text-dark fw-bold mb-3" style="font-size: 2.5rem">
             <i
