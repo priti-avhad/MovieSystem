@@ -170,7 +170,7 @@
   </head>
 
   <body>
-    <div class="container my-4">
+    <div class="container">
       <div class="header">
         <h2><i class="bi bi-film"></i> View All Movies</h2>
         <p>
@@ -200,6 +200,10 @@
 
       <% if (movies.length > 0) { %>
       <p class="text-muted mb-4">Showing <%= movies.length %> movie(s)</p>
+     
+
+
+
       <div class="row g-4" id="movieContainer">
         <% movies.forEach(movie => { %>
         <div class="col-md-4 movie-wrapper">
@@ -209,39 +213,41 @@
               class="movie-poster"
               alt="<%= movie.title %> Poster"
             />
-            <div class="card-body">
+            <div class="card-body ">
               <p class="movie-meta">
-                <strong>Title:</strong>
-                <span class="movie-title"><%= movie.title %></span>
+                <strong style="font-weight: bold; font-size: 1rem; padding-left: 20px; padding-top: 10px; color: black;">Title:</strong>
+                <span class="movie-title" ><%= movie.title %></span>
               </p>
               <p class="movie-meta">
-                <strong>Genre:</strong> <%= movie.genre %>
+                <strong style="font-weight: bold; font-size: 1rem; padding-left: 20px; padding-top: 10px; color: black;">Genre:</strong> <%= movie.genre %>
               </p>
               <p class="movie-meta">
-                <strong>Language:</strong> <%= movie.language %>
+                <strong style="font-weight: bold; font-size: 1rem; padding-left: 20px; padding-top: 10px; color: black;">Language:</strong> <%= movie.language %>
               </p>
               <p class="movie-meta">
-                <strong>Country:</strong> <%= movie.country %>
+                <strong style="font-weight: bold; font-size: 1rem; padding-left: 20px; padding-top: 10px; color: black;">Country:</strong> <%= movie.country %>
               </p>
               <p class="movie-meta">
-                <strong>Director:</strong> <%= movie.director %>
+                <strong style="font-weight: bold; font-size: 1rem; padding-left: 20px; padding-top: 10px; color: black;">Director:</strong> <%= movie.director %>
               </p>
 
-              <div class="d-flex flex-wrap mb-2">
+              <div class="d-flex flex-wrap mb-2 gap-2">
                 <% if (movie.trailerurl?.startsWith('http')) { %>
                 <a
                   href="<%= movie.trailerurl %>"
                   class="btn btn-sm btn-outline-warning"
                   target="_blank"
-                  ><i class="bi bi-play-btn-fill"></i> Trailer</a
                 >
+                  <i class="bi bi-play-btn-fill"></i> Trailer
+                </a>
                 <% } %> <% if (movie.movieurl) { %>
                 <a
                   href="<%= movie.movieurl %>"
                   class="btn btn-sm btn-outline-success"
                   target="_blank"
-                  ><i class="bi bi-film"></i> Watch</a
                 >
+                  <i class="bi bi-film"></i> Watch
+                </a>
                 <% } %>
                 <button
                   class="btn btn-sm btn-outline-primary"
@@ -252,18 +258,26 @@
               </div>
 
               <p class="movie-meta">
-                <strong>Release Date:</strong> <%= movie.releasedate ?
+                <strong style="font-weight: bold; font-size: 1rem; padding-left: 20px; padding-top: 10px; color: black;">Release Date:</strong>
+                <%= movie.releasedate ?
                 movie.releasedate.toISOString().split('T')[0] : 'N/A' %><br />
-                <strong>Runtime:</strong> <%= movie.runtime %> mins<br />
-                <strong>Budget:</strong> $<%= movie.budget ?
+                <strong style="font-weight: bold; font-size: 1rem; padding-left: 20px; padding-top: 10px; color: black;">Runtime:</strong> <%= movie.runtime %> mins<br />
+                <strong style="font-weight: bold; font-size: 1rem; padding-left: 20px; padding-top: 10px; color: black;">Budget:</strong> $<%= movie.budget ?
                 movie.budget.toLocaleString() : 'N/A' %><br />
-                <strong>Revenue:</strong> $<%= movie.revenue ?
+                <strong style="font-weight: bold; font-size: 1rem; padding-left: 20px; padding-top: 10px; color: black;">Revenue:</strong> $<%= movie.revenue ?
                 movie.revenue.toLocaleString() : 'N/A' %>
               </p>
             </div>
           </div>
         </div>
         <% }); %>
+
+        <nav>
+          <ul
+            class="pagination justify-content-center mt-4"
+            id="paginationControls"
+          ></ul>
+        </nav>
       </div>
 
       <div
@@ -336,104 +350,143 @@
     </div>
 
     <script>
-      function openRating(mid) {
-        const modal = document.getElementById("ratingModal");
-        modal.classList.add("show");
-        modal.style.display = "flex";
-        document.getElementById("ratingMid").value = mid;
-        document.getElementById(
-          "ratingForm"
-        ).action = `/user/submit-rating/${mid}`;
-      }
+  function openRating(mid) {
+    const modal = document.getElementById("ratingModal");
+    modal.classList.add("show");
+    modal.style.display = "flex";
+    document.getElementById("ratingMid").value = mid;
+    document.getElementById("ratingForm").action = `/user/submit-rating/${mid}`;
+  }
 
-      function closeRating() {
-        const modal = document.getElementById("ratingModal");
-        modal.classList.remove("show");
-        modal.style.display = "none";
-        document.getElementById("ratingForm").reset();
-        const stars = document.querySelectorAll('input[name="rating"]');
-        stars.forEach((star) => (star.checked = false));
-        const container = document.querySelector(".rating-container");
-        const successMsg = container.querySelector(".alert-success");
-        if (successMsg) successMsg.remove();
-      }
+  function closeRating() {
+    const modal = document.getElementById("ratingModal");
+    modal.classList.remove("show");
+    modal.style.display = "none";
+    document.getElementById("ratingForm").reset();
+    const stars = document.querySelectorAll('input[name="rating"]');
+    stars.forEach((star) => (star.checked = false));
+    const container = document.querySelector(".rating-container");
+    const successMsg = container.querySelector(".alert-success");
+    if (successMsg) successMsg.remove();
+  }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        const searchInput = document.getElementById("searchInput");
-        const searchFilter = document.getElementById("searchFilter");
-        const movieCards = document.querySelectorAll(
-          "#movieContainer .movie-wrapper"
-        );
-        const noResultsMsg = document.getElementById("noResultsMsg");
-        const searchTermSpan = document.getElementById("searchTerm");
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("searchInput");
+    const searchFilter = document.getElementById("searchFilter");
+    const movieCards = document.querySelectorAll("#movieContainer .movie-wrapper");
+    const noResultsMsg = document.getElementById("noResultsMsg");
+    const searchTermSpan = document.getElementById("searchTerm");
 
-        searchInput.addEventListener("input", function () {
-          const keyword = this.value.trim().toLowerCase();
-          const filter = searchFilter.value;
-          let matchFound = false;
+    searchInput?.addEventListener("input", function () {
+      const keyword = this.value.trim().toLowerCase();
+      const filter = searchFilter.value;
+      let matchFound = false;
 
-          movieCards.forEach(function (card) {
-            let text = "";
-            if (filter === "title") {
-              text = card
-                .querySelector(".movie-title")
-                ?.textContent.toLowerCase();
-            } else if (filter === "genre") {
-              text = card
-                .querySelector(".movie-meta:nth-of-type(2)")
-                ?.textContent.toLowerCase();
-            } else if (filter === "language") {
-              text = card
-                .querySelector(".movie-meta:nth-of-type(3)")
-                ?.textContent.toLowerCase();
-            } else if (filter === "director") {
-              text = card
-                .querySelector(".movie-meta:nth-of-type(5)")
-                ?.textContent.toLowerCase();
-            }
-
-            if (text.includes(keyword)) {
-              card.style.display = "block";
-              matchFound = true;
-            } else {
-              card.style.display = "none";
-            }
-          });
-
-          if (!matchFound && keyword !== "") {
-            searchTermSpan.textContent = this.value;
-            noResultsMsg.classList.remove("d-none");
-          } else {
-            noResultsMsg.classList.add("d-none");
-          }
-        });
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const success = urlParams.get("success");
-        const mid = urlParams.get("mid");
-
-        if (success && mid) {
-          openRating(mid);
-          const container = document.querySelector(".rating-container");
-          const oldMsg = container.querySelector(".alert-success");
-          if (oldMsg) oldMsg.remove();
-          const message = document.createElement("div");
-          message.className = "alert alert-success mt-2";
-          message.innerHTML =
-            "<i class='bi bi-check-circle-fill'></i> Review submitted successfully!";
-          container.insertBefore(message, container.firstChild);
+      movieCards.forEach(function (card) {
+        let text = "";
+        if (filter === "title") {
+          text = card.querySelector(".movie-title")?.textContent.toLowerCase();
+        } else if (filter === "genre") {
+          text = card.querySelector(".movie-meta:nth-of-type(2)")?.textContent.toLowerCase();
+        } else if (filter === "language") {
+          text = card.querySelector(".movie-meta:nth-of-type(3)")?.textContent.toLowerCase();
+        } else if (filter === "director") {
+          text = card.querySelector(".movie-meta:nth-of-type(5)")?.textContent.toLowerCase();
         }
 
-        if (window.history.replaceState) {
-          const url =
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            window.location.pathname;
-          window.history.replaceState({}, document.title, url);
+        if (text.includes(keyword)) {
+          card.style.display = "block";
+          matchFound = true;
+        } else {
+          card.style.display = "none";
         }
       });
-    </script>
+
+      if (!matchFound && keyword !== "") {
+        searchTermSpan.textContent = this.value;
+        noResultsMsg.classList.remove("d-none");
+      } else {
+        noResultsMsg.classList.add("d-none");
+      }
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get("success");
+    const mid = urlParams.get("mid");
+
+    if (success && mid) {
+      openRating(mid);
+      const container = document.querySelector(".rating-container");
+      const oldMsg = container.querySelector(".alert-success");
+      if (oldMsg) oldMsg.remove();
+      const message = document.createElement("div");
+      message.className = "alert alert-success mt-2";
+      message.innerHTML = "<i class='bi bi-check-circle-fill'></i> Review submitted successfully!";
+      container.insertBefore(message, container.firstChild);
+    }
+
+    if (window.history.replaceState) {
+      const url = window.location.protocol + "//" + window.location.host + window.location.pathname;
+      window.history.replaceState({}, document.title, url);
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const wrappers = Array.from(document.querySelectorAll(".movie-wrapper"));
+    const paginationControls = document.getElementById("paginationControls");
+    const MOVIES_PER_PAGE = 3;
+    const totalPages = Math.ceil(wrappers.length / MOVIES_PER_PAGE);
+    let currentPage = 1;
+
+    function showPage(page) {
+      currentPage = page;
+      const start = (page - 1) * MOVIES_PER_PAGE;
+      const end = start + MOVIES_PER_PAGE;
+
+      wrappers.forEach((w, i) => {
+        w.style.display = i >= start && i < end ? "block" : "none";
+      });
+
+      renderPagination();
+    }
+
+    function renderPagination() {
+      paginationControls.innerHTML = "";
+
+      const prevLi = document.createElement("li");
+      prevLi.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
+      prevLi.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+      prevLi.onclick = (e) => {
+        e.preventDefault();
+        if (currentPage > 1) showPage(currentPage - 1);
+      };
+      paginationControls.appendChild(prevLi);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement("li");
+        li.className = `page-item ${currentPage === i ? "active" : ""}`;
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.onclick = (e) => {
+          e.preventDefault();
+          showPage(i);
+        };
+        paginationControls.appendChild(li);
+      }
+
+      const nextLi = document.createElement("li");
+      nextLi.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
+      nextLi.innerHTML = `<a class="page-link" href="#">Next</a>`;
+      nextLi.onclick = (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) showPage(currentPage + 1);
+      };
+      paginationControls.appendChild(nextLi);
+    }
+
+    showPage(1);
+  });
+</script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

@@ -22,6 +22,8 @@ router.get("/history", authenticateToken, userCtrl.watchHistoryMovies);
 // show user profile
 router.get("/profile", userController.getUserProfile);
 
+// user show all rating
+router.get("/user/ratings",userController.showAllRatingsPage);
 
 // Logout user
 router.get('/logout', userController.logoutUser);

@@ -96,6 +96,22 @@ exports.submitRating = (req, res) => {
   });
 };
 
+// show all rating
+
+exports.showAllRatingsPage=(req,res)=>{
+  RatingModel.getAllRatings((err,results)=>{
+    if(err){
+      console.log("Error fetching ratings:",err);
+      return res.status(500).send("Internal Server error");
+    }
+    res.render("UserPanel", {
+      viewFile: "userViewRating",
+      ratings: results,
+      movies: req.query.success || null,
+    });
+  });
+}
+
 // Controller to load watch history
 
 exports.watchHistoryMovies = (req, res) => {
@@ -117,10 +133,8 @@ exports.watchHistoryMovies = (req, res) => {
 
 // Get User Profile
 exports.getUserProfile = (req, res) => {
-  console.log(" helloe getuser ");
 
   const userId = req.user.uid;
-  console.log(" helloe getuser ", userId);
 
   movieModel.getUserById(userId, (err, user) => {
     if (err) {
@@ -129,7 +143,7 @@ exports.getUserProfile = (req, res) => {
     }
 
     console.log("✅ User profile fetched successfully");
-    res.render("UserPanel", { viewFile: "userProfile", user, movies: [] }); // <-- ADD THIS
+    res.render("UserPanel", { viewFile: "userProfile", user, movies: [] }); 
   });
 };
 
