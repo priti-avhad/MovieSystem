@@ -97,6 +97,7 @@ exports.submitRating = (req, res) => {
 };
 
 // Controller to load watch history
+
 exports.watchHistoryMovies = (req, res) => {
   const uid = req.user.id;
   console.log("Fetching watch history for user ID:", uid);
@@ -106,9 +107,8 @@ exports.watchHistoryMovies = (req, res) => {
       return res.status(500).send("Error loading watch history");
     }
     console.log("✅ Watch history fetched successfully");
-    // Render main layout with dynamic view
     res.render("userPanel", {
-      viewFile: "userHistoryView",
+      viewFile: "userHistoryView.ejs",
       history,
       movies: null,
     });
@@ -117,7 +117,10 @@ exports.watchHistoryMovies = (req, res) => {
 
 // Get User Profile
 exports.getUserProfile = (req, res) => {
-  const userId = req.user.id;
+  console.log(" helloe getuser ");
+
+  const userId = req.user.uid;
+  console.log(" helloe getuser ", userId);
 
   movieModel.getUserById(userId, (err, user) => {
     if (err) {
@@ -132,6 +135,8 @@ exports.getUserProfile = (req, res) => {
 
 // Logout User
 exports.logoutUser = (req, res) => {
+  console.log("Logout user");
+
   try {
     res.clearCookie("token");
     if (req.session) {

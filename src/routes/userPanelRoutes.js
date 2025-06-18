@@ -1,4 +1,5 @@
 // User Panel Routes
+let authenticateToken = require("../middleware/viewMoviesMidd");
 
 const express = require("express");
 const router = express.Router();
@@ -16,10 +17,11 @@ router.post("/submit-rating/:mid", userController.submitRating);
 router.get("/ratings", userController.showAllRatings);
 
 // watchHistory
-router.get("/history", userController.watchHistoryMovies);
+router.get("/history", authenticateToken, userCtrl.watchHistoryMovies);
 
 // show user profile
 router.get("/profile", userController.getUserProfile);
+
 
 // Logout user
 router.get('/logout', userController.logoutUser);
