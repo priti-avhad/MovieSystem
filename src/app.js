@@ -34,22 +34,14 @@ app.use(
   })
 );
 
-// Public Routes
+
 app.use("/", authRoutes); // login/register
 app.use("/", homeRoutes); // homepage/dashboard
 app.use("/admin", adminRoutes); // admin dashboard
 app.use("/admin/movies", movieRoutes); // admin movie CRUD
 
-app.use("/",movieRoutes);
 
-// User Routes (protected)
-app.use("/user", authenticateToken, userRoutes);
-
-//user Profile
-app.use("/profile", userRoutes); 
-
-// logout user
-app.use("/", userRoutes);
+app.use("/user", authenticateToken, userRoutes); // all user routes including profile
 
 // Export app
 module.exports = app;

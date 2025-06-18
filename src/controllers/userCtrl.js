@@ -67,7 +67,7 @@ const loginUser = (req, res) => {
 
     const user = result[0];
     console.log("2a  User is log in ", user);
-    
+
     const validPassword = bcrypt.compareSync(password, user.password);
     if (!validPassword) {
       return res.render("login", {
@@ -76,17 +76,17 @@ const loginUser = (req, res) => {
       });
     }
 
-// Assuming you get user from DB and it has user.uid
+    // Assuming you get user from DB and it has user.uid
 
-const token = jwt.sign(
-  {
-    id: user.uid,            
-    email: user.email,
-    role: user.role
-  },
-  process.env.JWT_SECRET,
-  { expiresIn: "1h" }
-);
+    const token = jwt.sign(
+      {
+        uid: user.uid,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
 
     console.log("3  Token for user ", token);
     res.cookie("token", token, { httpOnly: true });
@@ -121,5 +121,3 @@ module.exports = {
   showRegisterForm,
   showLoginForm,
 };
-
-
