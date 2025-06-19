@@ -46,11 +46,21 @@ app.use("/",movieRoutes);
 app.use("/user", authenticateToken, userRoutes); // all user routes including profile
 
 //user Profile
+
 // app.use("/profile", userRoutes); 
+
+app.use("/profile", authenticateToken,userRoutes); 
+
 // logout user
-app.use("/", userRoutes);
+app.use("/",authenticateToken, userRoutes);
 
 app.use("/home",authenticateToken, apiRoutes); // includes /api/ratings
+
+
+const userPanelRoutes = require("./routes/userPanelRoutes.js");
+app.use("/user", userPanelRoutes);
+
+
 
 
 // Export app

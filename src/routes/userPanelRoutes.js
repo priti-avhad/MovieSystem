@@ -17,8 +17,8 @@ router.post("/submit-rating/:mid", userController.submitRating);
 router.get("/ratings", userController.showAllRatings);
 
 // watchHistory
-router.get("/history", authenticateToken, userCtrl.watchHistoryMovies);
-
+router.get("/add-to-watchlist/:mid", userController.addToWatchlist);
+router.get("/history", userController.viewWatchHistory);
 // show user profile
 router.get('/profile', userController.getUserProfile);         // ✅ Must be defined
 router.get('/profile/edit', userController.getEditProfile);    // ✅ Must be defined
@@ -30,3 +30,9 @@ router.get("/user/ratings",userController.showAllRatingsPage);
 // Logout user
 router.get('/logout', userController.logoutUser);
 module.exports = router;
+
+//new added 
+router.get("/add-to-watchlist/:mid", userController.addToWatchlist);
+
+
+

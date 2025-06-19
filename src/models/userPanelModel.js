@@ -35,19 +35,33 @@ exports.getAllRatings = (callback) => {
   db.query(sql, callback);
 };
 
-// Get watch history for a user
 
-exports.getUserWatchHistory=(uid,callback)=>{
-  let sql=`select w.added_at,m.title,m.posterurl,m.genre from watchlist w join movies m on w.mid=m.mid where w.uid=?
-  order by w.added_at desc`;
-  db.query(sql, [uid], (err, results) => {
-    if (err) {
-      console.error("❌ Error fetching watch history:", err);
-      return callback(err);
-    }
-    callback(null, results);
+
+exports.addToWatchlist = (uid, mid, callback) => {
+  const sql = "INSERT INTO watchlist (uid, mid, added_at) VALUES (?, ?, NOW())";
+  db.query(sql, [uid, mid], callback);
+};
+
+
+
+exports.getUserWatchHistory = (uid, callback) => {
+  const sql = `
+    SELECT w.*, m.title, m.description, m.posterurl
+    FROM watchlist w
+    JOIN movies m ON w.mid = m.mid
+    WHERE w.uid = ?
+    ORDER BY w.added_at DESC
+  `;
+
+  db.query(sql, [uid], (err, result) => {
+    if (err) return callback(err);
+    callback(null, result);
   });
 };
+
+
+
+
 // show Profile User
 
 exports.getUserById = (id, callback) => {

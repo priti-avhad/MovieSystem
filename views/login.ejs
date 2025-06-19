@@ -212,5 +212,43 @@
   </div>
   <script src="/validations/loginForm.js"></script>
 
+  <script>
+  async function loginUser(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value;
+
+    const res = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, password, role })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      // ✅ Store all in localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userid", data.userid);
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("role", data.role);
+
+      alert("Login successful!");
+
+      // ✅ Redirect based on role
+      if (data.role === "Admin") {
+        window.location.href = "/adminpanel";
+      } else {
+        window.location.href = "/userpanel";
+      }
+    } else {
+      alert(data.message);
+    }
+  }
+</script>
+
+
 </body>
 </html>

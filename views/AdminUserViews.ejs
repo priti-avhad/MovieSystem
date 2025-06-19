@@ -15,27 +15,14 @@
       overflow-x: hidden;
     }
 
-    /* Animations */
     @keyframes slideDownFade {
-      0% {
-        transform: translateY(-40px);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      0% { transform: translateY(-40px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
     }
 
     @keyframes fadeUp {
-      0% {
-        transform: translateY(40px);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      0% { transform: translateY(40px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
     }
 
     .gradient-header {
@@ -62,7 +49,6 @@
 
     .table th {
       background-color: #dbeafe !important;
-      color: #000;
       vertical-align: middle;
     }
 
@@ -70,27 +56,19 @@
       vertical-align: middle;
     }
 
-    .btn-info {
-      background-color: #06b6d4;
-      border: none;
-    }
+    .btn-info { background-color: #06b6d4; border: none; }
+    .btn-danger { background-color: #ef4444; border: none; }
+    .btn i { margin-right: 5px; }
 
-    .btn-danger {
-      background-color: #ef4444;
-      border: none;
-    }
-
-    .btn i {
-      margin-right: 5px;
+    .search-bar {
+      margin-bottom: 20px;
     }
   </style>
 </head>
 
 <body class="bg-light">
-
   <div class="container mt-4">
-
-    <!-- Animated Gradient Header -->
+    <!-- Header -->
     <div class="gradient-header">
       <h4><i class="bi bi-people-fill me-2"></i> User Management</h4>
       <p>Manage all registered users with actions</p>
@@ -104,9 +82,21 @@
       </div>
     <% } %>
 
-    <!-- Animated Table -->
+    <!-- Search Bar -->
+    <div class="search-bar d-flex justify-content-center align-items-center gap-2 flex-wrap">
+      <select id="searchField" class="form-select w-auto">
+        <option value="all">All</option>
+        <option value="name">Name</option>
+        <option value="email">Email</option>
+        <option value="role">Role</option>
+      </select>
+      <input type="text" id="searchInput" class="form-control w-auto" placeholder="Search users..." onkeyup="filterTable()" />
+      <button class="btn btn-secondary" onclick="resetSearch()">Reset</button>
+    </div>
+
+    <!-- Table -->
     <div class="table-responsive table-container">
-      <table class="table table-bordered table-hover bg-white text-center shadow-sm rounded">
+      <table class="table table-bordered table-hover bg-white text-center shadow-sm rounded" id="userTable">
         <thead>
           <tr>
             <th>Sr.No</th>
@@ -140,12 +130,135 @@
         </tbody>
       </table>
     </div>
+
     <div class="text-center my-3">
       <a href="/admin" class="btn btn-outline-primary">
         <i class="bi bi-arrow-left-circle me-1"></i> Back to Dashboard
       </a>
     </div>
   </div>
+
+
+
+    <!-- Pagination -->
+    <div id="paginationContainer" class="d-flex justify-content-center mt-4"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const table = document.getElementById("userTable");
+      const rows = Array.from(table.querySelectorAll("tbody tr"));
+      const paginationContainer = document.getElementById("paginationContainer");
+
+      const rowsPerPage = 6;
+      let currentPage = 1;
+      let filteredRows = [...rows];
+
+      function renderPage(page) {
+        const start = (page - 1) * rowsPerPage;
+        const end = page * rowsPerPage;
+
+        filteredRows.forEach((row, index) => {
+          row.style.display = index >= start && index < end ? "" : "none";
+        });
+
+        renderPaginationControls();
+      }
+
+      function renderPaginationControls() {
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+        paginationContainer.innerHTML = "";
+
+        const pagination = document.createElement("ul");
+        pagination.className = "pagination";
+
+        const prev = document.createElement("li");
+        prev.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
+        prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+        prev.onclick = (e) => {
+          e.preventDefault();
+          if (currentPage > 1) {
+            currentPage--;
+            renderPage(currentPage);
+          }
+        };
+        pagination.appendChild(prev);
+
+        for (let i = 1; i <= totalPages; i++) {
+          const li = document.createElement("li");
+          li.className = `page-item ${currentPage === i ? "active" : ""}`;
+          li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+          li.onclick = (e) => {
+            e.preventDefault();
+            currentPage = i;
+            renderPage(currentPage);
+          };
+          pagination.appendChild(li);
+        }
+
+        const next = document.createElement("li");
+        next.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
+        next.innerHTML = `<a class="page-link" href="#">Next</a>`;
+        next.onclick = (e) => {
+          e.preventDefault();
+          if (currentPage < totalPages) {
+            currentPage++;
+            renderPage(currentPage);
+          }
+        };
+        pagination.appendChild(next);
+
+        paginationContainer.appendChild(pagination);
+      }
+
+      window.filterTable = function () {
+        const searchInput = document.getElementById("searchInput").value.toLowerCase();
+        const field = document.getElementById("searchField").value;
+
+        filteredRows = [];
+
+        rows.forEach(row => {
+          const name = row.children[1].textContent.toLowerCase();
+          const email = row.children[2].textContent.toLowerCase();
+          const role = row.children[3].textContent.toLowerCase();
+
+          let match = false;
+
+          if (field === "all") {
+            match = name.includes(searchInput) || email.includes(searchInput) || role.includes(searchInput);
+          } else if (field === "name") {
+            match = name.includes(searchInput);
+          } else if (field === "email") {
+            match = email.includes(searchInput);
+          } else if (field === "role") {
+            match = role.includes(searchInput);
+          }
+
+          if (match) {
+            row.style.display = "";
+            filteredRows.push(row);
+          } else {
+            row.style.display = "none";
+          }
+        });
+
+        currentPage = 1;
+        renderPage(currentPage);
+      };
+
+      window.resetSearch = function () {
+        document.getElementById("searchInput").value = "";
+        document.getElementById("searchField").value = "all";
+        filteredRows = [...rows];
+        filteredRows.forEach(row => row.style.display = "");
+        currentPage = 1;
+        renderPage(currentPage);
+      };
+
+      renderPage(currentPage);
+    });
+  </script>
 
 
   
