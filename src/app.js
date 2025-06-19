@@ -46,7 +46,11 @@ app.use("/",movieRoutes);
 app.use("/user", authenticateToken, userRoutes); // all user routes including profile
 
 //user Profile
+
+// app.use("/profile", userRoutes); 
+
 app.use("/profile", authenticateToken,userRoutes); 
+
 // logout user
 app.use("/",authenticateToken, userRoutes);
 
@@ -62,5 +66,3 @@ app.use("/user", userPanelRoutes);
 // Export app
 module.exports = app;
 
-// Export app
-module.exports = app;

@@ -78,3 +78,20 @@ exports.getUserById = (id, callback) => {
   });
 };
 
+exports.updateUserById = (id, data, callback) => {
+  const { username, email } = data;
+
+  const sql = `
+    UPDATE user 
+    SET uname = ?, email = ?, updated_at = NOW() 
+    WHERE uid = ?
+  `;
+
+  db.query(sql, [username, email, id], (err, result) => {
+    if (err) {
+      console.error("❌ Error updating user profile:", err);
+      return callback(err);
+    }
+    callback(null, result);
+  });
+};

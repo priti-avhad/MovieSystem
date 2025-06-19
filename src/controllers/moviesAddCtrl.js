@@ -9,12 +9,11 @@ exports.addMovie = async (req, res) => {
       revenue, runtime, trailer_url, movie_url
     } = req.body;
 
-    const posterurl = req.file ? "/uploads/" + req.file.filename : null;
-
+    // Include poster in movieData
     const movieData = {
       title,
       description,
-      release_date: releasedate,
+      releasedate,
       genre,
       director,
       language,
@@ -22,22 +21,23 @@ exports.addMovie = async (req, res) => {
       budget,
       revenue,
       runtime,
-      trailer_url,
+      posterurl: req.file ? "/images/" + req.file.filename : null,
+      trailerurl: trailer_url,
       movieurl: movie_url
     };
 
-    movieModel.insertMovie(movieData, posterurl, (err, result) => {
+    movieModel.insertMovie(movieData, (err, result) => {
       if (err) {
         console.error("DB Insert Error:", err);
         return res.render("AdminPanel.ejs", {
           main_content: "AddMovie",
-          msg: "Failed to add movie. Please try again."
+          msg: "❌ Failed to add movie. Please try again."
         });
       }
 
       res.render("AdminPanel.ejs", {
         main_content: "AddMovie",
-        msg: "🎉 Movie added successfully!"
+        msg: "✅ Movie added successfully!"
       });
     });
 
@@ -45,10 +45,12 @@ exports.addMovie = async (req, res) => {
     console.error("Add Movie Error:", err);
     res.render("AdminPanel.ejs", {
       main_content: "AddMovie",
-      msg: null
+      msg: "❌ Unexpected error occurred. Try again."
     });
   }
 };
+
+
 // view Movies
 exports.viewMovies = (req, res) => {
   movieModel.getAllMovies((err, result) => {

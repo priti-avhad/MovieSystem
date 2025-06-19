@@ -20,7 +20,9 @@ router.get("/ratings", userController.showAllRatings);
 router.get("/add-to-watchlist/:mid", userController.addToWatchlist);
 router.get("/history", userController.viewWatchHistory);
 // show user profile
-router.get("/profile", userController.getUserProfile);
+router.get('/profile', userController.getUserProfile);         // ✅ Must be defined
+router.get('/profile/edit', userController.getEditProfile);    // ✅ Must be defined
+router.post('/profile/edit', userController.postEditProfile);  // ✅ Must be defined
 
 // user show all rating
 router.get("/user/ratings",userController.showAllRatingsPage);

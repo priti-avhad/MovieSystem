@@ -100,55 +100,105 @@
         <div class="col-md-4">
           <label for="title"><i class="bi bi-film text-primary me-1"></i>Title</label>
           <input type="text" id="title" name="title" class="form-control" required>
+          <span id="title-error" class="text-danger small"></span>
 
-          <label for="release_date" class="mt-2"><i class="bi bi-calendar-event text-primary me-1"></i>Release Date</label>
-          <input type="date" id="release_date" name="release_date" class="form-control" required>
+          <label for="release_date" class="mt-2">
+            <i class="bi bi-calendar-event text-primary me-1"></i>Release Date
+          </label>
+          <input type="date" id="releasedate" name="releasedate" class="form-control" required>
+          <span id="release-error" class="text-danger" style="font-size: 0.9em;"></span>
 
           <label for="budget" class="mt-2"><i class="bi bi-cash-coin text-primary me-1"></i>Budget</label>
           <input type="number" id="budget" name="budget" class="form-control" required>
 
           <label for="runtime" class="mt-2"><i class="bi bi-clock-history text-primary me-1"></i>Runtime (min)</label>
           <input type="number" id="runtime" name="runtime" class="form-control" required>
-            <label for="director"><i class="bi bi-person-video3 text-primary me-1"></i>Director</label>
+
+          <label for="director">
+            <i class="bi bi-person-video3 text-primary me-1"></i>Director
+          </label>
           <input type="text" id="director" name="director" class="form-control" required>
+          <span id="director-error" class="text-danger" style="font-size: 0.9em;"></span>
+
+          
         </div>
 
         <!-- Column 2 -->
         <div class="col-md-4">
           <label for="description"><i class="bi bi-card-text text-primary me-1"></i>Description</label>
           <textarea id="description" name="description" class="form-control" rows="5" required></textarea>
+          <span id="description-error" class="text-danger"></span>
 
-          <label for="genre" class="mt-2"><i class="bi bi-tags text-primary me-1"></i>Genre</label>
+          <label for="genre" class="mt-2">
+            <i class="bi bi-tags text-primary me-1"></i>Genre
+          </label>
           <select id="genre" name="genre" class="form-select" required>
-            <option disabled selected>Select Genre</option>
+            <option disabled selected value="">Select Genre</option>
             <option value="Hollywood">Hollywood</option>
             <option value="Bollywood">Bollywood</option>
             <option value="Historical">Historical</option>
             <option value="Comedy">Comedy</option>
           </select>
+          <span id="genre-error" class="text-danger" style="font-size: 0.9em;"></span>
+          
 
-          <label for="language" class="mt-2"><i class="bi bi-translate text-primary me-1"></i>Language</label>
+          <label for="language" class="mt-2">
+            <i class="bi bi-translate text-primary me-1"></i>Language
+          </label>
           <input type="text" id="language" name="language" class="form-control" required>
+          <span id="language-error" class="text-danger" style="font-size: 0.9em;"></span>
+          
         </div>
 
         <!-- Column 3 -->
         <div class="col-md-4">
         
 
-          <label for="poster" class="mt-2"><i class="bi bi-image text-primary me-1"></i>Poster Image</label>
-          <input type="file" id="poster" name="poster" class="form-control" accept="image/*" required>
+          <label for="poster" class="mt-2">
+            <i class="bi bi-image text-primary me-1"></i>Poster Image
+          </label>
+          <input
+            type="file"
+            id="poster"
+            name="poster"
+            class="form-control"
+            accept="image/*"
+            required
+          />
+          <span id="poster-error" class="text-danger small" style="font-size: 0.9em;"></span>
+          
 
           <label for="revenue" class="mt-2"><i class="bi bi-graph-up-arrow text-primary me-1"></i>Revenue</label>
           <input type="number" id="revenue" name="revenue" class="form-control" required>
 
           <label for="country" class="mt-2"><i class="bi bi-globe text-primary me-1"></i>Country</label>
           <input type="text" id="country" name="country" class="form-control" required>
+          <span id="country-error" class="text-danger" style="font-size: 0.9em;"></span>
 
-          <label for="trailer_url" class="mt-2"><i class="bi bi-link-45deg text-primary me-1"></i>Trailer URL</label>
-          <input type="url" id="trailer_url" name="trailer_url" class="form-control" required>
-
-          <label for="movie_url" class="mt-2"><i class="bi bi-link text-primary me-1"></i>Movie URL</label>
-          <input type="url" id="movie_url" name="movie_url" class="form-control" required>
+          <label for="trailer_url" class="mt-2">
+            <i class="bi bi-link text-primary me-1"></i>Trailer URL
+          </label>
+          <input 
+            type="text" 
+            id="trailer_url"       
+            name="trailer_url" 
+            class="form-control"
+          />
+          <span id="trailer_url-error" class="text-danger small"></span>
+          
+          
+          <label for="movie_url" class="mt-2">
+            <i class="bi bi-link text-primary me-1"></i>Movie URL
+          </label>
+          <input 
+            type="url" 
+            id="movie_url" 
+            name="movie_url" 
+            class="form-control" 
+            required
+          />
+          <span id="movie_url-error" class="text-danger small" style="font-size:0.9em;"></span>
+          
         </div>
       </div>
 
@@ -156,6 +206,9 @@
         <button type="submit" class="btn btn-success btn-submit">
           <i class="bi bi-check-circle-fill text-white me-1"></i>Save
         </button>
+        <a href="/admin" class="btn btn-outline-primary">
+          <i class="bi bi-arrow-left-circle me-1"></i> Back to Dashboard
+        </a>
       </div>
     </div>
 
@@ -170,11 +223,11 @@
           setTimeout(() => {
             const msg = document.getElementById('success-msg');
             if (msg) msg.style.display = 'none';
-          }, 3000); // hide after 3 seconds
+          }, 10000); // hide after 3 seconds
         });
       </script>
     <% } %>
-    
   </form>
+  <script src="/validations/movieFormValidation.js"></script>
 </body>
 </html>
