@@ -91,10 +91,13 @@ const loginUser = (req, res) => {
     if ( user.role === "admin") {
 
       req.session.admin = user;
+      req.session.uid = user.uid;
+      req.session.uid = user.uid;
       // const selectedView = req.query.view || "dashboard";
       // res.render("AdminPanel", { view: selectedView });
       res.render("AdminPanel");
     } else if ( user.role === "user") {
+      
       return res.render("UserPanel"); // Create UserPanel.ejs
       // return res.render("UserPanel", { name: user.username }); // Create UserPanel.ejs
     } else {
