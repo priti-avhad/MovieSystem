@@ -3,8 +3,7 @@ const router = express.Router();
 const path = require("path");
 
 const uploadMiddleware = require("../middleware/multer"); // Import Multer middleware
-const movieCtrl = require("../controllers/moviesAddCtrl"); // Controller
-
+const movieCtrl   = require("../controllers/moviesAddCtrl");
 //Home page
 
 router.get("/admin",(req,res)=>

@@ -42,22 +42,30 @@
         <h4><i class="bi bi-pencil-square me-2"></i> Update Profile</h4>
       </div>
       <div class="card-body">
-        <form action="/AdminProfileUpdate" method="POST">
+        <form action="/AdminProfileUpdate" method="POST" onsubmit="return validateForm()">
+          <!-- Name -->
           <div class="mb-3">
             <label class="form-label">Name</label>
-            <input type="text" name="uname" class="form-control" value="<%= admin.uname %>" required />
+            <input type="text" id="username" name="uname" class="form-control" value="<%= admin.uname %>" onkeyup="validatename(this.value)" required />
+            <span id="n" class="text-danger small"></span>
           </div>
+        
+          <!-- Email -->
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" value="<%= admin.email %>" required />
+            <input type="email" id="email" name="email" class="form-control" value="<%= admin.email %>" onkeyup="validateemail(this.value)" required />
+            <span id="e" class="text-danger small"></span>
           </div>
+        
+          <!-- Buttons -->
           <div class="d-flex justify-content-center mt-3 gap-2">
             <button type="submit" class="btn btn-success">
-              <i class="bi bi-check-circle-fill me-1"></i> Save Changes
+              <i class="bi bi-check-circle-fill me-1"></i> Update
             </button>
             <a href="/admin/AdminProfileView" class="btn btn-outline-secondary">Cancel</a>
           </div>
         </form>
+        
         <% if (msg) { %>
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
               <%= msg %>
@@ -85,5 +93,7 @@
       }
     }, 3000);
   </script>
+  <script src="/validations/userProfileUpdate.js"></script>
+
 </body>
 </html>

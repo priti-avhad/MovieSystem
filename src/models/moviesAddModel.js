@@ -1,28 +1,70 @@
-// moviesAddModel.js
+// src/models/moviesAddModel.js
 const conn = require("../config/db.js");
 
-exports.insertMovie = (movieData, posterurl, callback) => {
+// Now taking a single data object and callback\,exports.insertMovie = (data, callback) => {
+
+
+exports.insertMovie = (data, callback) => {
   const {
-    title, description, release_date, genre,
-    director, language, country, budget,
-    revenue, runtime, trailer_url, movieurl
-  } = movieData;
+    title,
+    description,
+    releasedate,
+    genre,
+    director,
+    language,
+    country,
+    budget,
+    revenue,
+    runtime,
+    posterurl,
+    trailerurl,
+    movieurl
+  } = data;
 
   const sql = `
-    INSERT INTO movies 
-    (title, description, releasedate, genre, director, language, country, budget, revenue, runtime, posterurl, trailerurl, movieurl)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO movies (
+      title,
+      description,
+      releasedate,
+      genre,
+      director,
+      language,
+      country,
+      budget,
+      revenue,
+      runtime,
+      posterurl,
+      trailerurl,
+      movieurl
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const values = [
-    title, description, release_date, genre,
-    director, language, country, budget, revenue,
-    runtime, posterurl, trailer_url, movieurl
+    title,
+    description,
+    releasedate,
+    genre,
+    director,
+    language,
+    country,
+    budget,
+    revenue,
+    runtime,
+    posterurl,
+    trailerurl,
+    movieurl
   ];
 
-  conn.query(sql, values, callback);
+  conn.query(sql, values, (err, result) => {
+    if (typeof callback === 'function') {
+      callback(err, result);
+    } else {
+      console.error("❌ insertMovie called without a valid callback!");
+    }
+  });
 };
 
+  
 //Get All Movies
 exports.getAllMovies = (callback) =>{
   let query = "select * from movies";

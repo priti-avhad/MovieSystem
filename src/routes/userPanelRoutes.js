@@ -20,8 +20,12 @@ router.get("/ratings", userController.showAllRatings);
 router.get("/history", authenticateToken, userCtrl.watchHistoryMovies);
 
 // show user profile
-router.get("/profile", userController.getUserProfile);
+router.get('/profile', userController.getUserProfile);         // ✅ Must be defined
+router.get('/profile/edit', userController.getEditProfile);    // ✅ Must be defined
+router.post('/profile/edit', userController.postEditProfile);  // ✅ Must be defined
 
+// user show all rating
+router.get("/user/ratings",userController.showAllRatingsPage);
 
 // Logout user
 router.get('/logout', userController.logoutUser);

@@ -96,6 +96,22 @@ exports.submitRating = (req, res) => {
   });
 };
 
+// show all rating
+
+exports.showAllRatingsPage=(req,res)=>{
+  RatingModel.getAllRatings((err,results)=>{
+    if(err){
+      console.log("Error fetching ratings:",err);
+      return res.status(500).send("Internal Server error");
+    }
+    res.render("UserPanel", {
+      viewFile: "userViewRating",
+      ratings: results,
+      movies: req.query.success || null,
+    });
+  });
+}
+
 // Controller to load watch history
 
 exports.watchHistoryMovies = (req, res) => {
@@ -115,12 +131,9 @@ exports.watchHistoryMovies = (req, res) => {
   });
 };
 
-// Get User Profile
+// Show user profile
 exports.getUserProfile = (req, res) => {
-  console.log(" helloe getuser ");
-
   const userId = req.user.uid;
-  console.log(" helloe getuser ", userId);
 
   movieModel.getUserById(userId, (err, user) => {
     if (err) {
@@ -128,8 +141,70 @@ exports.getUserProfile = (req, res) => {
       return res.status(500).send("Error loading profile");
     }
 
-    console.log("✅ User profile fetched successfully");
-    res.render("UserPanel", { viewFile: "userProfile", user, movies: [] }); // <-- ADD THIS
+    res.render("UserPanel", {
+      viewFile: "userProfile",
+      user,
+      movies: [],
+      successMessage: null // ✅ optional if you want to pass it for uniformity
+    });
+  });
+};
+
+// Load Edit Profile form
+exports.getEditProfile = (req, res) => {
+  const userId = req.user.uid;
+
+  movieModel.getUserById(userId, (err, user) => {
+    if (err) {
+      console.error("❌ Error loading edit profile:", err);
+      return res.status(500).send("Error loading edit form");
+    }
+
+    res.render("UserPanel", {
+      viewFile: "userProfileUpdate",
+      user,
+      movies: [],
+      successMessage: null
+    });
+  });
+};
+
+// Handle Edit Profile form submission
+exports.postEditProfile = (req, res) => {
+  const userId = req.user.uid;
+  const { uname, email } = req.body;
+
+  // Ensure uname and email are not empty
+  if (!uname || !email) {
+    return res.status(400).send("Username and Email are required.");
+  }
+
+  const updatedData = {
+    username: uname,
+    email
+  };
+
+  movieModel.updateUserById(userId, updatedData, (err, result) => {
+    if (err) {
+      console.error("❌ Error updating profile:", err);
+      return res.status(500).send("Error updating profile");
+    }
+
+    // Re-fetch updated user to display
+    movieModel.getUserById(userId, (err, user) => {
+      if (err) {
+        console.error("❌ Error fetching updated user:", err);
+        return res.status(500).send("Error loading updated profile");
+      }
+
+      const successMessage = "Profile updated successfully!";
+      res.render("UserPanel", {
+        viewFile: "userProfileUpdate",
+        user,
+        movies: [],
+        successMessage
+      });
+    });
   });
 };
 

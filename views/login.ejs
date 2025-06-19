@@ -166,15 +166,6 @@
         <i class="fas fa-lock"></i>
         <input type="password" name="password" placeholder="Password" required />
       </div>
-      <!-- <div class="input-group">
-        <i class="fas fa-user-tag"></i>
-        <select name="role" required>
-          <option value="" disabled selected>Select Role</option>
-          <option value="User">User</option>
-          <option value="Admin">Admin</option>
-        </select>
-      </div> -->
-      <a href="#">Forgot password?</a>
       <button type="submit">Login</button>
       <p>Not a member? <label for="tab-register">Register Here</label></p>
 
@@ -185,21 +176,31 @@
       <% } %>
     </form>
 
-    <!-- Signup Form -->
-    <form id="signupForm" class="form" action="/register" method="POST">
-      <div class="input-group">
-        <i class="fas fa-user"></i>
-        <input type="text" name="username" placeholder="Username" required />
-      </div>
-      <div class="input-group">
-        <i class="fas fa-envelope"></i>
-        <input type="email" name="email" placeholder="Email Address" required />
-      </div>
-      <div class="input-group">
-        <i class="fas fa-lock"></i>
-        <input type="password" name="password" placeholder="Password" required />
-      </div>
-      <button type="submit">Register</button>
+    <form id="signupForm" class="form" action="/register" method="POST" onsubmit="return validateForm()">
+      <!-- Username -->
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <input type="text" id="username" name="username" placeholder="Username" required onkeyup="validatename(this.value)" />
+        </div>
+        <span id="n" class="text-danger small text-lowercase"></span>
+      
+        <!-- Email -->
+        <div class="input-group">
+          <i class="fas fa-envelope"></i>
+          <input type="text" id="email" name="email" placeholder="Email Address" required onkeyup="validateemail(this.value)" />
+        </div>
+        <span id="e" class="text-danger small text-lowercase"></span>
+      
+        <!-- Password -->
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" name="password" placeholder="Password" required onkeyup="validatePass(this.value)" />
+        </div>
+        <span id="pass" class="text-danger small text-lowercase"></span>
+      
+        <button type="submit">Register</button>
+      </form>
+    
       <p>Already have an account? <label for="tab-login">Login now</label></p>
 
       <% if (activeTab === 'register' && message) { %>
@@ -209,6 +210,7 @@
       <% } %>
     </form>
   </div>
+  <script src="/validations/loginForm.js"></script>
 
 </body>
 </html>

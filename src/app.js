@@ -16,6 +16,7 @@ let homeRoutes = require("../src/routes/homeRoutes");
 let adminRoutes = require("../src/routes/adminRoutes");
 let movieRoutes = require("../src/routes/moviesAddRoutes");
 let userRoutes = require("./routes/userPanelRoutes.js");
+let apiRoutes = require("./routes/userPanelRoutes");                 // API for /api/ratings
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -45,13 +46,13 @@ app.use("/",movieRoutes);
 app.use("/user", authenticateToken, userRoutes); // all user routes including profile
 
 //user Profile
-app.use("/profile", userRoutes); 
-
+// app.use("/profile", userRoutes); 
 // logout user
 app.use("/", userRoutes);
 
-// Export app
-module.exports = app;
+app.use("/home",authenticateToken, apiRoutes); // includes /api/ratings
+
 
 // Export app
 module.exports = app;
+
