@@ -78,6 +78,7 @@ exports.getUserById = (id, callback) => {
   });
 };
 
+// update specific user
 exports.updateUserById = (id, data, callback) => {
   const { username, email } = data;
 
@@ -93,5 +94,27 @@ exports.updateUserById = (id, data, callback) => {
       return callback(err);
     }
     callback(null, result);
+  });
+};
+
+// Delete watch history by ID
+exports.deleteHistoryById = (historyId) => {
+  return new Promise((resolve, reject) => {
+    const sql = "DELETE FROM watchlist WHERE wid = ?";
+    db.query(sql, [historyId], (err, result) => {
+      if (err) return reject(err);
+      resolve(result);
+    });
+  });
+};
+
+//delete all  watch history
+
+exports.clearAllHistory = (callback) => {
+  const query = "DELETE FROM watchlist";
+
+  db.query(query, (err, results) => {
+    if (err) return callback(err);
+    callback(null, results);
   });
 };

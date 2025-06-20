@@ -20,9 +20,9 @@ router.get("/ratings", userController.showAllRatings);
 router.get("/add-to-watchlist/:mid", userController.addToWatchlist);
 router.get("/history", userController.viewWatchHistory);
 // show user profile
-router.get('/profile', userController.getUserProfile);         // ✅ Must be defined
-router.get('/profile/edit', userController.getEditProfile);    // ✅ Must be defined
-router.post('/profile/edit', userController.postEditProfile);  // ✅ Must be defined
+router.get('/profile', userController.getUserProfile);         
+router.get('/profile/edit', userController.getEditProfile);    
+router.post('/profile/edit', userController.postEditProfile);  
 
 // user show all rating
 router.get("/user/ratings",userController.showAllRatingsPage);
@@ -34,5 +34,10 @@ module.exports = router;
 //new added 
 router.get("/add-to-watchlist/:mid", userController.addToWatchlist);
 
+//user history delete (specific history)
+router.get("/viewWatchHistory", userController.viewWatchHistory); // 👈 This must match
+router.post("/deleteHistory/:id", userController.deleteHistory);  // Already correct
 
+//user delete all history
+router.post("/clearHistory", userController.clearHistory);
 
