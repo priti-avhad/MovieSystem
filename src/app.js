@@ -49,7 +49,10 @@ app.use("/user", authenticateToken, userRoutes); // all user routes including pr
 
 // app.use("/profile", userRoutes); 
 
+app.use("/",movieRoutes);
+
 app.use("/profile", authenticateToken,userRoutes); 
+
 
 // logout user
 app.use("/",authenticateToken, userRoutes);
