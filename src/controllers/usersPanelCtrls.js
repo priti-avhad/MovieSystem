@@ -76,7 +76,7 @@ exports.showAllRatings = (req, res) => {
 
   // RatingModel.getAllRatings((err, results) => {
   //   if (err) {
-  //     console.error("❌ Fetch Error:", err);
+  //     console.error(" Fetch Error:", err);
   //     return res.status(500).send("Database error");
   //   }
 
@@ -134,7 +134,6 @@ exports.addToWatchlist = (req, res) => {
   const uid = req.user.uid;
   const movieUrl = req.query.movieUrl;
 
-  console.log("🔍 UID for watch history YUVRAJ:", uid); 
   const mid = req.params.mid;
 
   movieModel.addToWatchlist(uid, mid, (err, result) => {
@@ -157,13 +156,13 @@ exports.addToWatchlist = (req, res) => {
 //   if (!mid) return res.status(400).send("Missing mid");
 //   if (!uid) return res.status(400).send("Missing uid");
 
-//   // console.log("🎬 User clicked to watch a movie!");
-//   // console.log("📌 User ID (uid):", uid);
-//   // console.log("📌 Movie ID (mid):", mid);
+//   // console.log(" User clicked to watch a movie!");
+//   // console.log(" User ID (uid):", uid);
+//   // console.log(" Movie ID (mid):", mid);
 
 //   movieModel.addToWatchlist(uid, mid, (err, result) => {
 //     if (err) {
-//       console.error("❌ Error adding to watchlist:", err);
+//       console.error(" Error adding to watchlist:", err);
 //       return res.status(500).send("Database error");
 //     }
 
@@ -176,7 +175,6 @@ exports.addToWatchlist = (req, res) => {
 exports.viewWatchHistory = (req, res) => {
   const uid = req.session?.uid || req.user?.uid;
 
-  console.log(" UID for watch history:", uid); //  Must be a number
 
   if (!uid) {
     return res.status(400).send("User not logged in or UID missing");
@@ -188,7 +186,7 @@ exports.viewWatchHistory = (req, res) => {
       return res.status(500).send("Internal Server Error");
     }
 
-    console.log(" Watch history from DB:", history); // 👈 Ensure it logs the expected record
+    console.log(" Watch history from DB:", history); 
 
     res.render("UserPanel", {
       viewFile: "userHistoryView",
@@ -205,7 +203,6 @@ exports.viewWatchHistory = (req, res) => {
 exports.getUserProfile = (req, res) => {
   const userId = req.user.uid;
 
-  console.log("Fetching user profile for ID:", userId);
 
   movieModel.getUserById(userId, (err, user) => {
     if (err) {
@@ -218,7 +215,7 @@ exports.getUserProfile = (req, res) => {
       viewFile: "userProfile",
       user,
       movies: [],
-      successMessage: null // ✅ optional if you want to pass it for uniformity
+      successMessage: null 
     });
   });
 };
@@ -229,7 +226,7 @@ exports.getEditProfile = (req, res) => {
 
   movieModel.getUserById(userId, (err, user) => {
     if (err) {
-      console.error("❌ Error loading edit profile:", err);
+      console.error(" Error loading edit profile:", err);
       return res.status(500).send("Error loading edit form");
     }
 
@@ -259,14 +256,14 @@ exports.postEditProfile = (req, res) => {
 
   movieModel.updateUserById(userId, updatedData, (err, result) => {
     if (err) {
-      console.error("❌ Error updating profile:", err);
+      console.error(" Error updating profile:", err);
       return res.status(500).send("Error updating profile");
     }
 
     // Re-fetch updated user to display
     movieModel.getUserById(userId, (err, user) => {
       if (err) {
-        console.error("❌ Error fetching updated user:", err);
+        console.error(" Error fetching updated user:", err);
         return res.status(500).send("Error loading updated profile");
       }
 
