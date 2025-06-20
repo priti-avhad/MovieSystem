@@ -196,8 +196,30 @@ exports.viewWatchHistory = (req, res) => {
   });
 };
 
+// Delete watch history(specific history)
+exports.deleteHistory = async (req, res) => {
+  const historyId = req.params.id;
 
+  try {
+    await movieModel.deleteHistoryById(historyId);
+    res.redirect("/user/viewWatchHistory");
+  } catch (err) {
+    console.error("Error deleting history:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
 
+// delete all watch history
+exports.clearHistory = (req, res) => {
+  movieModel.clearAllHistory((err, result) => {
+    if (err) {
+      console.error("Error clearing history:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+
+    res.redirect("/user/viewWatchHistory");
+  });
+};
 // Get User Profile
 
 exports.getUserProfile = (req, res) => {
