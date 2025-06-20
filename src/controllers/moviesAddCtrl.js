@@ -245,7 +245,7 @@ exports.postAdminProfileUpdate = (req, res) => {
     req.session.admin.uname = uname;
     req.session.admin.email = email;
 
-    req.session.msg = 'Data updated successfully!';
+    req.session.msg = 'Profile updated successfully!';
     res.redirect('/AdminProfileUpdate');
   });
 };

@@ -247,7 +247,6 @@ exports.postEditProfile = (req, res) => {
   const userId = req.user.uid;
   const { uname, email } = req.body;
 
-  // Ensure uname and email are not empty
   if (!uname || !email) {
     return res.status(400).send("Username and Email are required.");
   }
@@ -263,7 +262,7 @@ exports.postEditProfile = (req, res) => {
       return res.status(500).send("Error updating profile");
     }
 
-    // Re-fetch updated user to display
+    // ✅ Only re-fetch and render once — avoid duplicate render
     movieModel.getUserById(userId, (err, user) => {
       if (err) {
         console.error("❌ Error fetching updated user:", err);
@@ -272,16 +271,12 @@ exports.postEditProfile = (req, res) => {
 
       const successMessage = "Profile updated successfully!";
       res.render("UserPanel", {
-        viewFile: "userProfileUpdate",
+        viewFile: "userProfileUpdate", // or "userProfile" if you want to show view page after update
         user,
         movies: [],
         successMessage
       });
     });
-
-    console.log(" User profile fetched successfully");
-    res.render("UserPanel", { viewFile: "userProfile", user, movies: [] });
-
   });
 };
 

@@ -138,10 +138,10 @@
         </table>
       </div>
     <% } %>
-    <div class="text-center my-3">
-      <a href="/admin" class="btn btn-outline-primary">
-        <i class="bi bi-arrow-left-circle me-1"></i> Back to Dashboard
-      </a>
+    
+    <!-- Pagination Container Below the Button -->
+    <div class="text-center my-4">
+      <div id="paginationContainer" class="d-inline-block"></div>
     </div>
   </div>
 
@@ -166,9 +166,8 @@
     }
 
     // Create pagination container
-    const paginationContainer = document.createElement("div");
-    paginationContainer.className = "d-flex justify-content-center mt-4";
-    tableBody.parentElement.appendChild(paginationContainer);
+    const paginationContainer = document.getElementById("paginationContainer");
+
 
     function renderPage(page) {
       const start = (page - 1) * rowsPerPage;
