@@ -66,6 +66,10 @@ const userPanelRoutes = require("./routes/userPanelRoutes.js");
 app.use("/user", userPanelRoutes);
 
 
+// recommendation routes
+
+app.use("/", userPanelRoutes);
+
 //home page movie url check
 function isAuthenticated(req, res, next) {
   if (req.session && req.session.user) {
@@ -77,6 +81,6 @@ function isAuthenticated(req, res, next) {
   }
 }
 
-// Export app
+
 module.exports = app;
 

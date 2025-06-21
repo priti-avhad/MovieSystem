@@ -321,3 +321,77 @@ exports.logoutUser = (req, res) => {
   }
 };
 
+
+// recommendController
+const natural = require("natural");
+const cosineSimilarity = require("compute-cosine-similarity");
+
+const TfIdf = natural.TfIdf;
+
+function createDocument(movie) {
+  return (movie.genre || "").split(',').join(" ").toLowerCase();
+}
+
+function buildTfIdf(movies) {
+  const tfidf = new TfIdf();
+  movies.forEach(movie => tfidf.addDocument(createDocument(movie)));
+  return tfidf;
+}
+
+function getVector(tfidf, docIndex) {
+  return tfidf.listTerms(docIndex).map(term => term.tfidf);
+}
+
+function getRecommendations(movies, watchedMovieIds, topN =2) {
+  const tfidf = buildTfIdf(movies);
+  const watchedIndexes = watchedMovieIds
+    .map(id => movies.findIndex(m => m.mid === id))
+    .filter(i => i !== -1);
+
+  const baseVectors = watchedIndexes.map(index => getVector(tfidf, index));
+
+  const scores = movies.map((movie, index) => {
+    if (watchedIndexes.includes(index)) return { movie, score: -1 };
+    const vector = getVector(tfidf, index);
+    const score = Math.max(...baseVectors.map(base => cosineSimilarity(base, vector)));
+    return { movie, score };
+  });
+
+  return scores
+    .filter(s => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, topN)
+    .map(s => s.movie);
+}
+exports.recommendForUser = (req, res) => {
+  const userId = req.user?.uid; // Use optional chaining to avoid crash
+  console.log("User ID:", userId);
+
+  if (!userId) return res.status(401).send("User not logged in");
+
+  movieModel.getAll((err, allMovies) => {
+    if (err) return res.status(500).send("Movie fetch error");
+
+    movieModel.getWatched(userId, (err2, watchedMovies) => {
+      if (err2) return res.status(500).send("Watchlist fetch error");
+
+      const watchedIds = watchedMovies.map(row => row.mid);
+      const recommendations = getRecommendations(allMovies, watchedIds);
+
+      // Save recommendations into DB
+      recommendations.forEach((movie) => {
+        movieModel.saveRecommendation(userId, movie.mid, (err3) => {
+          if (err3) {
+            console.error(" Failed to insert recommendation:", err3);
+          } else {
+            console.log(` Saved recommendation: uid=${userId}, mid=${movie.mid}`);
+          }
+        });
+      });
+      res.render("UserPanel", {
+        viewFile: "recommend",
+        movies: recommendations,
+      });
+    }); 
+  });   
+};

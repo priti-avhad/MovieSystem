@@ -118,3 +118,34 @@ exports.clearAllHistory = (callback) => {
     callback(null, results);
   });
 };
+
+
+
+// recommendRoutes
+
+exports.saveRecommendation = (uid, mid, callback) => {
+  const sql = "INSERT IGNORE INTO recommendations (uid, mid) VALUES (?, ?)";
+  db.query(sql, [uid, mid], (err, result) => {
+    if (err) {
+      console.error(" Error inserting into recommendations:", err);
+      return callback(err);
+    }
+
+    if (result.affectedRows > 0) {
+      console.log(` Recommendation saved: uid=${uid}, mid=${mid}`);
+    } else {
+      console.log(` Recommendation already exists or ignored: uid=${uid}, mid=${mid}`);
+    }
+
+    callback(null, result);
+  });
+};
+
+
+exports.getAll = (callback) => {
+  db.query("SELECT mid, title, genre, posterurl, movieurl FROM movies", callback);
+};
+
+exports.getWatched = (uid, callback) => {
+  db.query("SELECT mid FROM watchlist WHERE uid = ?", [uid], callback);
+};
