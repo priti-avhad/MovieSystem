@@ -13,7 +13,7 @@ if (!token) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
 
-    // ✅ Set no-cache headers to prevent back navigation after logout
+    // Set no-cache headers to prevent back navigation after logout
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
 
     next(); // Proceed to the protected route

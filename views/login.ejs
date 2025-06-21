@@ -167,13 +167,15 @@
         <input type="password" name="password" placeholder="Password" required />
       </div>
       <button type="submit">Login</button>
-      <p>Not a member? <label for="tab-register">Register Here</label></p>
+<p>Not a member? <label for="tab-register">Register Here</label></p>
 
-      <% if (activeTab === 'login' && message) { %>
-        <div class="message <%= message.toLowerCase().includes('error') || message.toLowerCase().includes('invalid') || message.toLowerCase().includes('not') ? 'error' : '' %>">
-          <%= message %>
-        </div>
-      <% } %>
+<% if (activeTab === 'login' && message) { %>
+  <div class="alert alert-warning mt-3" role="alert">
+    <%= message %>
+  </div>
+<% } %>
+
+      
     </form>
 
     <form id="signupForm" class="form" action="/register" method="POST" onsubmit="return validateForm()">

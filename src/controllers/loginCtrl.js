@@ -85,7 +85,7 @@ exports.loginUser = (req, res) => {
 
     // ✅ Store in session (optional)
     req.session.uid = user.uid;
-    req.session.name = user.name;
+    req.session.uname = user.uname;
     req.session.role = user.role;
 
     // ✅ Generate token
