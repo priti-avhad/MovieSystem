@@ -37,8 +37,10 @@ app.use(
 
 
 app.use("/", authRoutes); // login/register
-app.use("/", homeRoutes); // homepage/dashboard
+// app.use("/", homeRoutes); // homepage/dashboard
 app.use("/admin", adminRoutes); // admin dashboard
+app.use("/",homeRoutes);
+
 app.use("/admin/movies", movieRoutes); // admin movie CRUD
 
 app.use("/",movieRoutes);
@@ -67,5 +69,18 @@ app.use("/user", userPanelRoutes);
 // recommendation routes
 
 app.use("/", userPanelRoutes);
+
+//home page movie url check
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.user) {
+    return next();
+  } else {
+    // Save movie URL user wanted before login
+    req.session.redirectAfterLogin = req.originalUrl;
+    return res.redirect('/login');
+  }
+}
+
+
 module.exports = app;
 

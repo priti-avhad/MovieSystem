@@ -4,6 +4,14 @@ const conn = require("../config/db.js");
 // Now taking a single data object and callback\,exports.insertMovie = (data, callback) => {
 
 
+exports.getAllMovies = (callback) => {
+  const sql = "SELECT * FROM movies";
+  db.query(sql, (err, results) => {
+    if (err) return callback(err, null);
+    callback(null, results);
+  });
+};
+
 exports.insertMovie = (data, callback) => {
   const {
     title,
