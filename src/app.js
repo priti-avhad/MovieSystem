@@ -64,8 +64,8 @@ const userPanelRoutes = require("./routes/userPanelRoutes.js");
 app.use("/user", userPanelRoutes);
 
 
+// recommendation routes
 
-
-// Export app
+app.use("/", userPanelRoutes);
 module.exports = app;
 

@@ -35,9 +35,13 @@ module.exports = router;
 router.get("/add-to-watchlist/:mid", userController.addToWatchlist);
 
 //user history delete (specific history)
-router.get("/viewWatchHistory", userController.viewWatchHistory); // 👈 This must match
+router.get("/viewWatchHistory", userController.viewWatchHistory); 
 router.post("/deleteHistory/:id", userController.deleteHistory);  // Already correct
 
 //user delete all history
 router.post("/clearHistory", userController.clearHistory);
 
+
+// recommend
+
+router.get("/recommend", userController.recommendForUser);
